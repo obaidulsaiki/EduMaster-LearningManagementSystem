@@ -1,0 +1,162 @@
+/* ================= HERO SECTION ================= */
+
+.hero {
+  min-height: calc(100vh - var(--nav-height));
+  padding-top: var(--nav-height);
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  box-sizing: border-box;
+
+  /* 🌞 LIGHT MODE (default) */
+  background: radial-gradient(circle at top, #e0f2fe, var(--bg-main));
+  color: var(--text-main);
+
+  transition: background 0.35s ease, color 0.25s ease;
+}
+
+/* 🌙 DARK MODE (your original design preserved) */
+body.dark .hero {
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  color: white;
+}
+
+/* ================= HERO CONTENT ================= */
+
+.hero-content {
+  max-width: 800px;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+/* Gradient title (works in both modes) */
+.hero-content h1 span {
+  background: linear-gradient(to right, #38bdf8, #818cf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  color: var(--text-muted);
+}
+
+/* ================= HERO ACTIONS ================= */
+
+.hero-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn-primary,
+.btn-ai {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 14px 32px;
+  border-radius: 999px;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Primary CTA */
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-text);
+  border: none;
+  text-decoration: none;
+
+  box-shadow:
+    0 4px 6px -1px rgba(56, 189, 248, 0.3),
+    0 2px 4px -1px rgba(56, 189, 248, 0.1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 15px -3px rgba(56, 189, 248, 0.4),
+    0 4px 6px -2px rgba(56, 189, 248, 0.2);
+}
+
+/* Secondary AI Button */
+.btn-ai {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--primary);
+  backdrop-filter: blur(6px);
+}
+
+.btn-ai:hover {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* Dark-mode tweak */
+body.dark .btn-ai {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-ai {
+    width: 100%;
+    justify-content: center;
+  }
+}

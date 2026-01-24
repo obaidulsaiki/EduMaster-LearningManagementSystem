@@ -1,0 +1,187 @@
+/* ================= PAGE LAYOUT ================= */
+.admin-profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centers card vertically */
+  min-height: calc(100vh - 80px); /* Adjust based on your nav height */
+  padding: 20px;
+  
+  /* Theme Aware Background */
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.profile-container {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  
+  /* Theme Aware Card Styling */
+  background-color: var(--bg-surface);
+  border: 1px solid var(--bg-muted);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+}
+
+/* ================= HEADER SECTION ================= */
+.profile-header {
+  /* Using your primary color variable with a slight gradient for depth */
+  background: linear-gradient(135deg, var(--primary) 0%, var(--text-muted) 150%);
+  padding: 35px 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  
+  /* Force text to be dark (primary-text) or light depending on your primary color definition.
+     Based on your root, primary-text is dark (#020617), but headers usually need white text 
+     if the primary color is dark. Assuming primary is bright (#38bdf8), dark text is good. */
+  color: var(--primary-text); 
+}
+
+.avatar-circle {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.25); /* Translucent glass effect */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  color: inherit;
+}
+
+.header-text h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: inherit; /* Inherits from .profile-header */
+}
+
+.role-badge {
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* ================= BODY & FIELDS ================= */
+.profile-body {
+  padding: 30px;
+}
+
+.field-group {
+  margin-bottom: 24px;
+}
+
+.field-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted); /* Theme aware muted text */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* --- Read Mode (Text Display) --- */
+.value-display {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bg-muted);
+}
+
+/* --- Edit Mode (Inputs) --- */
+.input-edit {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+  
+  /* Theme Aware Input Styling */
+  background: var(--bg-main); /* Slightly darker/lighter than surface to create depth */
+  color: var(--text-main);
+  border: 1px solid var(--bg-muted);
+}
+
+.input-edit:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--bg-muted); /* Subtle ring */
+}
+
+/* ================= BUTTONS & ACTIONS ================= */
+.action-footer {
+  margin-top: 30px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Specific overrides for Secondary Button (Cancel) */
+.btn-secondary {
+  background: var(--bg-muted);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  background: var(--text-muted); /* Darken slightly on hover */
+  color: var(--bg-surface);
+}
+
+/* Primary button uses App.css defaults, just adding disabled state */
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================= UTILITIES ================= */
+.status-message {
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* We need to hardcode colors for success/error or add semantic variables 
+   to your root. For now, we use safe colors that work on dark/light */
+.status-message.success {
+  background: rgba(16, 185, 129, 0.15); /* Green tint */
+  color: #10b981; 
+  border: 1px solid #10b981;
+}
+
+.status-message.error {
+  background: rgba(239, 68, 68, 0.15); /* Red tint */
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+/* Spinner Loader */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.spinner {
+  width: 30px; 
+  height: 30px;
+  border: 3px solid var(--bg-muted);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin { 
+  to { transform: rotate(360deg); } 
+}

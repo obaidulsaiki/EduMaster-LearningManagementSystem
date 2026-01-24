@@ -1,0 +1,119 @@
+.teacher-dashboard {
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* ===== STATS ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.stat-card {
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+}
+
+.stat-card p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.stat-card h3 {
+  font-size: 28px;
+  margin-top: 6px;
+}
+
+/* ===== COURSE SECTION ===== */
+.dashboard-section {
+  margin-top: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dashboard-course-list {
+  display: grid;
+  gap: 14px;
+}
+
+.dashboard-course-card {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.course-info h3 {
+  margin: 0;
+}
+
+.course-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ===== THEME VARIABLES ===== */
+:root {
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+body.dark {
+  --card-bg: #1f2937;
+  --muted: #9ca3af;
+  --border: #374151;
+  --shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}

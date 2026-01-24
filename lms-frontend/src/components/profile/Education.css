@@ -1,0 +1,18 @@
+.education-form input,
+.education-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.education-form .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

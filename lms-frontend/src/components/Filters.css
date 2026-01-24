@@ -1,0 +1,124 @@
+/* ================= FILTER PANEL (THEME AWARE) ================= */
+
+.filters {
+  /* Use Surface for the card background (White in Light, Dark in Dark) */
+  background: var(--bg-surface);
+  
+  /* Use Muted for the border (Light Grey in Light, Lighter Navy in Dark) */
+  border: 1px solid var(--bg-muted);
+  
+  padding: 24px;
+  border-radius: 16px;
+  width: 100%;
+  height: fit-content;
+  
+  /* Main text color */
+  color: var(--text-main);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  /* Shadow works well in both, but you can make it subtler if needed */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* --- Typography --- */
+.filters h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  
+  color: var(--text-main); /* Theme-aware text */
+  border-bottom: 1px solid var(--bg-muted); /* Theme-aware border */
+  
+  padding-bottom: 16px;
+}
+
+.filters label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted); /* Muted text variable */
+  margin-bottom: -10px;
+  display: block;
+}
+
+/* --- Inputs & Selects --- */
+.filters input,
+.filters select {
+  width: 100%;
+  padding: 12px 16px;
+  
+  border-radius: 10px;
+  border: 1px solid var(--bg-muted);
+  
+  /* Input BG: Uses Main BG (Usually darker than surface in "cut-out" designs) */
+  background: var(--bg-main); 
+  color: var(--text-main);
+  
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover & Focus States */
+.filters input:hover,
+.filters select:hover {
+  /* We can use the text-muted color for a slightly darker border on hover */
+  border-color: var(--text-muted);
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: var(--primary); /* Uses your Sky Blue variable */
+  
+  /* We use the primary variable, but with opacity for the ring */
+  /* Note: CSS variables inside rgba() is tricky, so we stick to a solid color or opacity property 
+     or just use the primary color directly for the shadow if your variable is a hex code */
+  box-shadow: 0 0 0 3px var(--bg-muted); 
+  transform: translateY(-1px);
+}
+
+/* --- Custom Select Arrow (Theme Aware) --- */
+.filters select {
+  appearance: none;
+  cursor: pointer;
+  
+  /* Linear Gradient supports CSS variables! */
+  background-image: 
+    linear-gradient(45deg, transparent 50%, var(--primary) 50%),
+    linear-gradient(135deg, var(--primary) 50%, transparent 50%);
+    
+  background-position: 
+    calc(100% - 20px) calc(50%),
+    calc(100% - 15px) calc(50%);
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* --- Price Group (Side-by-Side Layout) --- */
+.price-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.price-group input {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Placeholder styling */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* Number input arrows removal */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

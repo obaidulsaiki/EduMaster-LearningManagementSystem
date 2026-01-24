@@ -1,0 +1,145 @@
+/* =========================================================
+   Auth.css — Theme-aware (Dark & Light)
+   ========================================================= */
+
+.auth-container {
+  min-height: calc(100vh - var(--nav-height));
+  padding-top: calc(var(--nav-height) + 24px);
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* Theme-aware background */
+  background: radial-gradient(
+    circle at top,
+    var(--bg-muted),
+    var(--bg-main)
+  );
+
+  transition: background 0.3s ease;
+}
+
+/* ================= CARD ================= */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-surface);
+  padding: 32px;
+  border-radius: 16px;
+
+  color: var(--text-main);
+  border: 1px solid var(--bg-muted);
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+/* ================= SUBTITLE ================= */
+.auth-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ================= ROLE SELECTOR ================= */
+.role-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.role-selector label {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+
+  border: 1px solid var(--bg-muted);
+  background: var(--bg-main);
+  color: var(--text-main);
+
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+}
+
+.role-selector input {
+  display: none;
+}
+
+.role-selector label:hover {
+  border-color: var(--primary);
+}
+
+.role-selector label.active {
+  border-color: var(--primary);
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--primary);
+}
+
+/* ================= FORM ================= */
+.auth-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+
+  border-radius: 8px;
+  border: 1px solid var(--bg-muted);
+
+  background: var(--bg-main);
+  color: var(--text-main);
+
+  outline: none;
+  transition: border 0.25s ease, background 0.25s ease;
+}
+
+.auth-form input:focus {
+  border-color: var(--primary);
+}
+
+/* ================= BUTTON ================= */
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+
+  background: var(--primary);
+  color: var(--primary-text);
+
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.auth-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ================= FOOTER ================= */
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.auth-footer a {
+  color: var(--primary);
+  font-weight: 600;
+}

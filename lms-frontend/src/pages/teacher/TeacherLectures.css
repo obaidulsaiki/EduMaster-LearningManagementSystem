@@ -1,0 +1,96 @@
+.teacher-lectures-page {
+  padding-top: 120px;
+  min-height: 100vh;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  padding-inline: 40px;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* ================= LECTURE LIST ================= */
+
+.lecture-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ================= LECTURE CARD ================= */
+
+.lecture-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s ease, border 0.2s ease;
+}
+
+/* ================= ORDER ================= */
+
+.order {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* ================= INFO ================= */
+
+.lecture-info {
+  flex: 1;
+  margin-left: 14px;
+}
+
+.lecture-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.lecture-info p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* ================= ACTIONS ================= */
+
+.lecture-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.lecture-actions button {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s ease, border 0.2s ease;
+}
+
+.lecture-actions button:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+/* ================= DELETE BUTTON ================= */
+
+.lecture-actions .delete-btn {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.lecture-actions .delete-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+}

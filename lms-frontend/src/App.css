@@ -1,0 +1,139 @@
+/* =========================================================
+   App.css — Theme-aware (Dark default, Light optional)
+   ========================================================= */
+
+/* ================= ROOT VARIABLES ================= */
+:root {
+  /* LIGHT THEME */
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(248, 250, 252, 0.96);
+  --bg-muted: #e5e7eb;
+
+  --text-main: #020617;
+  --text-muted: #475569;
+
+  --primary: #38bdf8;
+  --primary-text: #020617;
+}
+
+/* DARK THEME */
+body.dark {
+  --bg-main: #020617;
+  --bg-surface: #020617;
+  --bg-overlay: rgba(2, 6, 23, 0.95);
+  --bg-muted: #1e293b;
+
+  --text-main: #f8fafc;
+  --text-muted: #cbd5f5;
+
+  --primary: #38bdf8;
+  --primary-text: #020617;
+}
+
+
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= HTML & BODY ================= */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+
+  background: var(--bg-main);
+  color: var(--text-main);
+
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ================= ROOT CONTAINER ================= */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= APP LAYOUT ================= */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ================= CONTENT (NAV OFFSET FIX) ================= */
+.app-content {
+  padding-top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height));
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= FOOTER SUPPORT ================= */
+.app-layout > *:not(.footer) {
+  flex: 1;
+  width: 100%;
+}
+
+/* ================= TYPOGRAPHY ================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.5em;
+  color: var(--text-main);
+}
+
+p {
+  color: var(--text-muted);
+}
+
+/* ================= LINKS ================= */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.25s ease;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+/* ================= BUTTONS ================= */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: var(--primary);
+  color: white;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* ================= UTILITY ================= */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: background 0.3s ease;
+}

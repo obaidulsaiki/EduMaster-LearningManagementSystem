@@ -1,0 +1,67 @@
+.lecture-player-page {
+  padding-top: 120px;
+  min-height: 100vh;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ================= VIDEO ================= */
+.video-wrapper {
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  background: black;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* ================= CONTROLS ================= */
+.lecture-controls {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+/* Back */
+.btn.back {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+/* Disabled */
+.btn.disabled {
+  background: var(--border-color);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Complete */
+.btn.complete {
+  background: #22c55e;
+  color: white;
+}
+
+/* Next */
+.btn.next {
+  background: var(--primary);
+  color: white;
+}
+
+.btn:hover:not(.disabled) {
+  transform: translateY(-1px);
+}

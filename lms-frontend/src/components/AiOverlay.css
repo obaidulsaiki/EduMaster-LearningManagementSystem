@@ -1,0 +1,91 @@
+.ai-overlay {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 360px;
+  height: 480px;
+  background: var(--bg-surface);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+/* ===== HEADER ===== */
+.ai-header {
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--bg-muted);
+}
+
+.ai-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ai-header button {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* ===== BODY ===== */
+.ai-body {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== MESSAGES ===== */
+.ai-message {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ai-bot {
+  background: var(--bg-muted);
+  color: var(--text-main);
+  align-self: flex-start;
+}
+
+.ai-user {
+  background: var(--primary);
+  color: white;
+  align-self: flex-end;
+}
+
+.typing {
+  opacity: 0.7;
+}
+
+/* ===== INPUT ===== */
+.ai-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--bg-muted);
+}
+
+.ai-input input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--bg-muted);
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.ai-input button {
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+}

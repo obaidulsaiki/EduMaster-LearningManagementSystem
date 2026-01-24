@@ -1,0 +1,91 @@
+/* =========================================================
+   Course Details — Theme-aware + Modern
+   ========================================================= */
+
+.course-details {
+  max-width: 900px;
+  margin: auto;
+  padding: 32px 24px;
+
+  background: var(--bg-surface);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  transition: background 0.3s ease;
+}
+
+/* ================= DESCRIPTION ================= */
+.description {
+  margin-bottom: 20px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ================= START / RESUME BUTTON ================= */
+.start-btn {
+  padding: 12px 24px;
+  background: var(--primary);
+  color: var(--primary-text);
+
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  transition: transform 0.2s ease, background 0.25s ease;
+}
+
+.start-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.start-btn:disabled {
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ================= LECTURE LIST ================= */
+.lecture-list {
+  margin-top: 28px;
+  list-style: none;
+  padding: 0;
+}
+
+.lecture-item {
+  padding: 12px 14px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-radius: 10px;
+  color: var(--text-main);
+
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.lecture-item:hover {
+  background: var(--bg-muted);
+  transform: translateX(4px);
+}
+
+/* ================= CURRENT / RESUME ================= */
+.lecture-item.current {
+  font-weight: 700;
+  background: rgba(56, 189, 248, 0.15);
+}
+
+/* ================= RESUME BADGE ================= */
+.resume-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  background: var(--primary);
+  color: var(--primary-text);
+}

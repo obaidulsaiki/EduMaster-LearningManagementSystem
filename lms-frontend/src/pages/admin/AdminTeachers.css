@@ -1,0 +1,101 @@
+/* ================= PAGE ================= */
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ================= HEADER ================= */
+
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-page-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* ================= SEARCH ================= */
+
+.admin-search {
+  width: 260px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--bg-muted);
+  background: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.admin-search::placeholder {
+  color: var(--text-muted);
+}
+
+/* ================= ACTIONS ================= */
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ================= BUTTONS ================= */
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--bg-muted);
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.btn-outline:hover {
+  background: var(--bg-muted);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* ================= PAGINATION ================= */
+
+.admin-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.admin-pagination button {
+  background: var(--bg-muted);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.admin-pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
