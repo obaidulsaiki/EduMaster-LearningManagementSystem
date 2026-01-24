@@ -10,6 +10,7 @@ const AdminDashboard = () => {
 
   if (!stats) return <p>Loading...</p>;
 
+  
   return (
     <div>
       <h1>Admin Analytics</h1>
