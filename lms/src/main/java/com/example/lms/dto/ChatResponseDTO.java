@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ChatResponseDTO {
     private String reply;
-    private String actionType; // e.g., "NAVIGATE", "SUGGEST_COURSE"
-    private String actionPayload; // e.g., "/courses/java-101"
+    private String actionType; // NAVIGATE, SUGGEST_COURSE, NONE
+    private String actionPayload; // Path or ID
 }
