@@ -25,6 +25,7 @@ export const fetchCourses = async ({
   minPrice = null,
   maxPrice = null,
   sort = null,
+  search = null,
 }) => {
   try {
     const response = await api.get("/courses/filter", {
@@ -35,6 +36,7 @@ export const fetchCourses = async ({
         minPrice: minPrice !== "" ? minPrice : null,
         maxPrice: maxPrice !== "" ? maxPrice : null,
         sort: sort || null,
+        search: search || null,
       },
     });
 

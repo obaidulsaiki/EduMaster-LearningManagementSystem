@@ -16,8 +16,7 @@ public class AdminStudentController {
     @GetMapping
     public Page<StudentAdminDTO> list(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(required = false) String search
-    ) {
+            @RequestParam(required = false) String search) {
         return service.getStudents(page, search);
     }
 
@@ -26,9 +25,13 @@ public class AdminStudentController {
         return service.getStudent(id);
     }
 
+    @PutMapping("/{id}/toggle")
+    public void toggle(@PathVariable Long id) {
+        service.toggleStatus(id);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.deleteStudent(id);
     }
 }
-

@@ -16,6 +16,7 @@ import TeacherCourses from "./pages/teacher/TeacherCourses.jsx";
 import CreateCourse from "./pages/CreateCourse.jsx";
 import TeacherLectures from "./pages/teacher/TeacherLectures.jsx";
 import EnrollCourse from "./pages/EnrollCourse.jsx";
+import PaymentPage from "./pages/PaymentPage";
 import AdminProfile from "./pages/admin/AdminProfile.jsx";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
@@ -25,6 +26,8 @@ import AdminStudents from "./pages/admin/students.jsx";
 import AdminReports from "./pages/admin/reports.jsx";
 import AdminTeacherView from "./pages/admin/AdminTeacherView.jsx";
 import AdminTeacherEdit from "./pages/admin/AdminTeacherEdit.jsx";
+import AdminPayments from "./pages/admin/AdminPayments.jsx";
+import Mentors from "./pages/Mentors";
 import "./App.css";
 
 function App() {
@@ -35,6 +38,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<BrowseCourses />} />
+          <Route path="/mentors" element={<Mentors />} />
         </Route>
 
         {/* ================= AUTH ROUTES ================= */}
@@ -60,6 +64,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
             <Route path="/course/:courseId/enroll" element={<EnrollCourse />} />
+            <Route path="/course/:courseId/payment" element={<PaymentPage />} />
             <Route
               path="/course/:courseId/lecture/:lectureId"
               element={<LecturePlayer />}
@@ -92,6 +97,7 @@ function App() {
             <Route path="students" element={<AdminStudents />} />
             <Route path="courses" element={<AdminCourses />} />
             <Route path="reports" element={<AdminReports />} />
+            <Route path="payments" element={<AdminPayments />} />
           </Route>
           <Route path="/admin/profile" element={<AdminProfile />} />
         </Route>

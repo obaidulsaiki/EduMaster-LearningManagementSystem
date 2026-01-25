@@ -9,5 +9,5 @@ export const enrollCourse = (courseId) =>
   api.post(`/student/enrollments/${courseId}`);
 
 // Confirm payment
-export const confirmPayment = (courseId) =>
-  api.post(`/student/enrollments/${courseId}/confirm`);
+export const confirmPayment = (courseId, paymentData) =>
+  api.post(`/student/enrollments/${courseId}/confirm`, paymentData);

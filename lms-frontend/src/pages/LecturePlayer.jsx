@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { completeLecture } from "../api/courseProgressApi";
+import { getEnrollmentStatus } from "../api/studentEnrollmentApi";
 import api from "../api/api";
 import "./LecturePlayer.css";
 
@@ -32,6 +33,15 @@ const LecturePlayer = () => {
   useEffect(() => {
     const loadLecture = async () => {
       const res = await api.get(`/courses/${courseId}`);
+      
+      let status;
+      try {
+        const statusRes = await getEnrollmentStatus(courseId);
+        status = statusRes.data;
+      } catch {
+        navigate(`/course/${courseId}`);
+        return;
+      }
 
       const lectures = [...(res.data.lectures || [])].sort(
         (a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0),
@@ -42,6 +52,17 @@ const LecturePlayer = () => {
       );
 
       if (index === -1) return;
+
+      /* ===== SEQUENCE PROTECTION ===== */
+      const currentIndex = status.resumeLectureId
+        ? lectures.findIndex((l) => String(l.id) === String(status.resumeLectureId))
+        : -1;
+
+      if (index > currentIndex + 1) {
+        alert("This lecture is locked. Please complete previous lectures first.");
+        navigate(`/course/${courseId}`);
+        return;
+      }
 
       // 🔥 RESET STATE ON LECTURE CHANGE
       completedOnce.current = false;

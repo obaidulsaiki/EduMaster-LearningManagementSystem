@@ -6,9 +6,10 @@ const AdminTable = ({ columns, data, actions, loading = false }) => {
       <table className="admin-table">
         <thead>
           <tr>
-            {columns.map((c) => (
-              <th key={c}>{c.toUpperCase()}</th>
-            ))}
+            {columns.map((c, i) => {
+              const headerText = typeof c === "string" ? c : c.header || "";
+              return <th key={i}>{headerText.toUpperCase()}</th>;
+            })}
             <th className="actions-col">Actions</th>
           </tr>
         </thead>
@@ -27,14 +28,22 @@ const AdminTable = ({ columns, data, actions, loading = false }) => {
               </td>
             </tr>
           ) : (
-            data.map((row) => (
-              <tr key={row.id} className="table-row">
-                {columns.map((c) => (
-                  <td key={c} className="cell">
-                    {row[c]}
-                  </td>
-                ))}
-                <td className="actions-cell">{actions(row)}</td>
+            data.map((row, rowIndex) => (
+              <tr key={row.id || rowIndex} className="table-row">
+                {columns.map((c, colIndex) => {
+                  const key = typeof c === "string" ? c : c.key;
+                  const value = row[key];
+                  return (
+                    <td key={colIndex} className="cell">
+                      {typeof c === "object" && c.render
+                        ? c.render(value, row)
+                        : value}
+                    </td>
+                  );
+                })}
+                <td className="actions-cell">
+                  {actions ? actions(row) : "-"}
+                </td>
               </tr>
             ))
           )}

@@ -21,17 +21,18 @@ public class StudentEnrollmentController {
 
     // STEP 2: confirm payment
     @PostMapping("/{courseId}/confirm")
-    public void confirmPayment(Authentication auth, @PathVariable Long courseId) {
-        enrollmentService.confirmPayment(auth, courseId);
+    public void confirmPayment(
+            Authentication auth,
+            @PathVariable Long courseId,
+            @RequestBody com.example.lms.dto.PaymentRequestDTO req) {
+        enrollmentService.confirmPayment(auth, courseId, req);
     }
 
     // STEP 1 helper (used by CourseDetails.jsx)
     @GetMapping("/{courseId}/status")
     public EnrollmentStatusDTO getStatus(
             Authentication auth,
-            @PathVariable Long courseId
-    ) {
+            @PathVariable Long courseId) {
         return enrollmentService.getStatus(auth, courseId);
     }
 }
-

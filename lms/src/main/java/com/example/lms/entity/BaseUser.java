@@ -11,5 +11,6 @@ public abstract class BaseUser {
     private String name;
     private String email;
     private String password;
+    private boolean enabled = true;
     private LocalDateTime createdAt = LocalDateTime.now();
 }

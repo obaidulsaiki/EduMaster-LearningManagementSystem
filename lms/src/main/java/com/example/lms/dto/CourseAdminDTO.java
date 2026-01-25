@@ -10,5 +10,5 @@ public class CourseAdminDTO {
     private String title;
     private BigDecimal price;
     private boolean published;
+    private boolean enabled;
 }
-

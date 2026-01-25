@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AdminTable from "../../components/Admin/AdminTable";
 import {
   getAdminCourses,
-  deleteAdminCourse,
+  toggleAdminCourseStatus,
   publishAdminCourse,
 } from "../../api/adminApi";
 
@@ -45,14 +45,22 @@ const AdminCourses = () => {
             )}
 
             <button
-              className="btn-delete"
+              style={{
+                backgroundColor: c.enabled ? "#ef4444" : "#10b981",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                padding: "6px 12px",
+                cursor: "pointer"
+              }}
               onClick={async () => {
-                if (!confirm("Delete this course?")) return;
-                await deleteAdminCourse(c.courseId);
+                const action = c.enabled ? "Disable" : "Enable";
+                if (!confirm(`${action} this course?`)) return;
+                await toggleAdminCourseStatus(c.id);
                 loadCourses();
               }}
             >
-              Delete
+              {c.enabled ? "Disable" : "Enable"}
             </button>
           </div>
         )}

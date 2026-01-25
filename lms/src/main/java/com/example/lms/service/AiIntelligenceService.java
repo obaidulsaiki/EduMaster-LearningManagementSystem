@@ -32,7 +32,7 @@ public class AiIntelligenceService {
 
     @PostConstruct
     public void init() {
-        // Initialize local model (Ollama)
+        // Initializing local model (Ollama)
         OllamaChatModel model = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
                 .modelName("gemma3:4b")
@@ -50,7 +50,7 @@ public class AiIntelligenceService {
 
         String navigation = """
                 Navigation Routes:
-                - Public: / (Home), /browse (Browse Courses), /login, /register
+                - Public: / (Home), /browse (Browse Courses), /mentors (Mentors/Teachers List), /login, /register
                 - All Roles: /settings
                 - Student: /profile, /course/{id} (Details), /course/{id}/enroll, /course/{id}/lecture/{id} (Player)
                 - Teacher: /teacher/dashboard, /teacher/profile, /teacher/courses, /teacher/courses/new, /teacher/courses/{id}/lectures

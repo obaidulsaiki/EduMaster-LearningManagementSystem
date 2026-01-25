@@ -7,4 +7,5 @@ public class StudentAdminDTO {
     private Long id;
     private String name;
     private String email;
+    private boolean enabled;
 }

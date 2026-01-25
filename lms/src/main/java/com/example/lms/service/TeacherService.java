@@ -25,6 +25,7 @@ public class TeacherService {
     private final TeacherProfileRepository teacherProfileRepository;
     private final TeacherEducationRepository educationRepository;
     private final TeacherExperienceRepository experienceRepository;
+    private final com.example.lms.repository.CourseRepository courseRepository;
 
     /* ================= HELPER ================= */
 
@@ -64,8 +65,7 @@ public class TeacherService {
 
     public TeacherProfileResponseDTO saveOrUpdateProfile(
             Authentication auth,
-            TeacherProfileRequestDTO request
-    ) {
+            TeacherProfileRequestDTO request) {
         Teacher teacher = getTeacher(auth);
         if (teacherProfileRepository.findTeacherProfileByTeacher_Id(teacher.getId()) == null) {
             TeacherProfile p = new TeacherProfile();
@@ -75,7 +75,6 @@ public class TeacherService {
 
         TeacherProfile profile = (TeacherProfile) teacherProfileRepository
                 .findTeacherProfileByTeacher_Id(teacher.getId());
-
 
         profile.setBio(request.getBio());
         profile.setField(request.getField());
@@ -96,8 +95,7 @@ public class TeacherService {
     public List<TeacherEducationDTO> getMyEducations(Authentication auth) {
 
         Teacher teacher = getTeacher(auth);
-        List<TeacherEducation> list =
-                educationRepository.findTeacherEducationByTeacher_Id(teacher.getId());
+        List<TeacherEducation> list = educationRepository.findByTeacher_Id(teacher.getId());
 
         List<TeacherEducationDTO> result = new ArrayList<>();
 
@@ -110,8 +108,7 @@ public class TeacherService {
 
     public TeacherEducationDTO addEducation(
             Authentication auth,
-            TeacherEducationDTO dto
-    ) {
+            TeacherEducationDTO dto) {
         Teacher teacher = getTeacher(auth);
 
         TeacherEducation edu = new TeacherEducation();
@@ -129,8 +126,7 @@ public class TeacherService {
     public TeacherEducationDTO updateEducation(
             Authentication auth,
             Long educationId,
-            TeacherEducationDTO updated
-    ) {
+            TeacherEducationDTO updated) {
         Teacher teacher = getTeacher(auth);
 
         TeacherEducation edu = educationRepository.findById(educationId)
@@ -168,8 +164,7 @@ public class TeacherService {
     public List<TeacherExperienceDTO> getMyExperiences(Authentication auth) {
 
         Teacher teacher = getTeacher(auth);
-        List<TeacherExperience> list =
-                experienceRepository.findTeacherEducationByTeacher_Id(teacher.getId());
+        List<TeacherExperience> list = experienceRepository.findByTeacher_Id(teacher.getId());
 
         List<TeacherExperienceDTO> result = new ArrayList<>();
 
@@ -182,8 +177,7 @@ public class TeacherService {
 
     public TeacherExperienceDTO addExperience(
             Authentication auth,
-            TeacherExperienceDTO dto
-    ) {
+            TeacherExperienceDTO dto) {
         Teacher teacher = getTeacher(auth);
 
         TeacherExperience exp = new TeacherExperience();
@@ -200,8 +194,7 @@ public class TeacherService {
     public TeacherExperienceDTO updateExperience(
             Authentication auth,
             Long experienceId,
-            TeacherExperienceDTO updated
-    ) {
+            TeacherExperienceDTO updated) {
         Teacher teacher = getTeacher(auth);
 
         TeacherExperience exp = experienceRepository.findById(experienceId)
@@ -233,6 +226,50 @@ public class TeacherService {
         experienceRepository.delete(exp);
     }
 
+    /* ================= PUBLIC ================= */
+
+    public List<MentorDTO> getAllMentors() {
+        List<Teacher> teachers = teacherRepository.findAll();
+        List<MentorDTO> result = new ArrayList<>();
+
+        for (Teacher t : teachers) {
+            result.add(toMentorDTO(t));
+        }
+
+        return result;
+    }
+
+    private MentorDTO toMentorDTO(Teacher t) {
+        MentorDTO dto = new MentorDTO();
+        dto.setId(t.getId());
+        dto.setName(t.getName());
+        dto.setEmail(t.getEmail());
+
+        TeacherProfile profile = (TeacherProfile) teacherProfileRepository
+                .findTeacherProfileByTeacher_Id(t.getId());
+
+        if (profile != null) {
+            dto.setBio(profile.getBio());
+            dto.setField(profile.getField());
+            dto.setExperienceYears(profile.getExperienceYears());
+        }
+
+        // Map experiences
+        List<TeacherExperienceDTO> exps = new ArrayList<>();
+        experienceRepository.findByTeacher_Id(t.getId())
+                .forEach(e -> exps.add(toExperienceDTO(e)));
+        dto.setExperiences(exps);
+
+        // Course count
+        // Assuming courseRepository is needed here. Let's add it to the service if not
+        // there.
+        // I checked earlier and teacherRepository, teacherProfileRepository,
+        // educationRepository, experienceRepository are there.
+        // Wait, I need CourseRepository too.
+        dto.setCourseCount(courseRepository.findCourseByTeacher_id(t.getId()).size());
+        return dto;
+    }
+
     /* ================= MAPPERS ================= */
 
     private TeacherEducationDTO toEducationDTO(TeacherEducation e) {
@@ -256,4 +293,3 @@ public class TeacherService {
         return dto;
     }
 }
-

@@ -16,6 +16,4 @@ public class Teacher extends BaseUser {
     private Long Id;
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Course> courses;
-
-    private boolean enabled;
 }

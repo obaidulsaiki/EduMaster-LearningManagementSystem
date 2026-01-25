@@ -59,3 +59,62 @@
   font-weight: 800;
   color: var(--text-main);
 }
+
+/* ================= PRINT STYLES ================= */
+
+.print-only-header {
+  display: none;
+}
+
+@media print {
+
+  /* Hide UI elements */
+  .report-controls,
+  .admin-reports>h2,
+  .navbar,
+  .sidebar,
+  button {
+    display: none !important;
+  }
+
+  .print-only-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #000;
+  }
+
+  .print-only-header h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .admin-reports {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+  }
+
+  .report-grid {
+    display: block !important;
+    /* Stack for print if needed or keep grid */
+  }
+
+  .report-card {
+    border: 1px solid #ddd !important;
+    break-inside: avoid;
+    margin-bottom: 15px;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .report-card h4 {
+    color: #444 !important;
+  }
+
+  .report-card p {
+    color: #000 !important;
+  }
+}

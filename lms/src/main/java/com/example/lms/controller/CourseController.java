@@ -1,13 +1,10 @@
 package com.example.lms.controller;
 
-import com.example.lms.dto.CourseDTO;
 import com.example.lms.dto.CourseDetailsDTO;
 import com.example.lms.dto.CoursePageResponseDTO;
-import com.example.lms.dto.LectureDTO;
 import com.example.lms.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +16,11 @@ public class CourseController {
 
     private final CourseService courseService;
 
-    /* ======================================================
-       =============== PUBLIC (STUDENTS) ====================
-       ====================================================== */
+    /*
+     * ======================================================
+     * =============== PUBLIC (STUDENTS) ====================
+     * ======================================================
+     */
 
     // 🔍 Browse & filter courses
     @GetMapping("/filter")
@@ -31,13 +30,11 @@ public class CourseController {
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) String sort
-    ) {
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String search) {
         return ResponseEntity.ok(
                 courseService.getFilteredCourses(
-                        page, size, category, minPrice, maxPrice, sort
-                )
-        );
+                        page, size, category, minPrice, maxPrice, sort, search));
     }
 
     // 📄 Course details page
@@ -45,7 +42,6 @@ public class CourseController {
     public CourseDetailsDTO getCourseDetails(@PathVariable Long courseId) {
         return courseService.getCourseDetails(courseId);
     }
-
 
     // 🏷 Categories
     @GetMapping("/categories")

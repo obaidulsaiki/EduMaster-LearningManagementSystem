@@ -24,6 +24,7 @@ public class AuthService {
     private final StudentRepository studentRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtUtil;
+
     public RegisterResponseDTO register(RegisterRequestDTO request) {
 
         String role = request.getRole().toUpperCase();
@@ -40,8 +41,8 @@ public class AuthService {
             student.setName(request.getName());
             student.setEmail(request.getEmail());
             student.setPassword(
-                    passwordEncoder.encode(request.getPassword())
-            );
+                    passwordEncoder.encode(request.getPassword()));
+            student.setEnabled(true);
 
             Student saved = studentRepository.save(student);
 
@@ -49,8 +50,7 @@ public class AuthService {
                     saved.getId(),
                     saved.getName(),
                     saved.getEmail(),
-                    "STUDENT"
-            );
+                    "STUDENT");
         }
         if ("TEACHER".equals(role)) {
 
@@ -62,8 +62,8 @@ public class AuthService {
             teacher.setName(request.getName());
             teacher.setEmail(request.getEmail());
             teacher.setPassword(
-                    passwordEncoder.encode(request.getPassword())
-            );
+                    passwordEncoder.encode(request.getPassword()));
+            teacher.setEnabled(true);
 
             Teacher saved = teacherRepository.save(teacher);
 
@@ -71,12 +71,12 @@ public class AuthService {
                     saved.getId(),
                     saved.getName(),
                     saved.getEmail(),
-                    "TEACHER"
-            );
+                    "TEACHER");
         }
 
         throw new RuntimeException("Invalid role");
     }
+
     public LoginResponseDTO login(LoginRequestDTO request) {
 
         String role = request.getRole().toUpperCase();
@@ -94,13 +94,16 @@ public class AuthService {
                     admin.getName(),
                     admin.getEmail(),
                     "ADMIN",
-                    token
-            );
+                    token);
         }
 
         if ("TEACHER".equals(role)) {
             Teacher teacher = teacherRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new RuntimeException("Teacher not found"));
+
+            if (!teacher.isEnabled()) {
+                throw new RuntimeException("Account is disabled");
+            }
 
             validatePassword(request.getPassword(), teacher.getPassword());
 
@@ -111,13 +114,16 @@ public class AuthService {
                     teacher.getName(),
                     teacher.getEmail(),
                     "TEACHER",
-                    token
-            );
+                    token);
         }
 
         if ("STUDENT".equals(role)) {
             Student student = studentRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new RuntimeException("Student not found"));
+
+            if (!student.isEnabled()) {
+                throw new RuntimeException("Account is disabled");
+            }
 
             validatePassword(request.getPassword(), student.getPassword());
 
@@ -128,12 +134,12 @@ public class AuthService {
                     student.getName(),
                     student.getEmail(),
                     "STUDENT",
-                    token
-            );
+                    token);
         }
 
         throw new RuntimeException("Invalid role");
     }
+
     private void validatePassword(String raw, String encoded) {
         if (!passwordEncoder.matches(raw, encoded)) {
             throw new RuntimeException("Invalid password");

@@ -9,4 +9,6 @@ public interface CompleteLectureRepository extends JpaRepository<CompletedLectur
     boolean existsCompletedLectureByStudent_IdAndLecture_Id(Long studentId, Long lectureId);
 
     int countByStudent_IdAndLecture_Course_CourseId(Long id, Long courseId);
+
+    void deleteByLecture_Id(Long lectureId);
 }

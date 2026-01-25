@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getAdminTeacherById, updateAdminTeacher } from "../../api/adminApi";
+import "./AdminTeacherEdit.css";
 
 const AdminTeacherEdit = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const AdminTeacherEdit = () => {
         name: res.data.name,
         email: res.data.email,
         bio: res.data.bio || "",
+        enabled: res.data.enabled
       });
     });
   }, [id]);
@@ -32,35 +34,44 @@ const AdminTeacherEdit = () => {
   };
 
   return (
-    <>
+    <div className="edit-teacher-container">
       <h2>Edit Teacher</h2>
 
-      <input
-        name="name"
-        placeholder="Name"
-        value={form.name}
-        onChange={handleChange}
-      />
-
-      <input
-        name="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={handleChange}
-      />
-
-      <textarea
-        name="bio"
-        placeholder="Bio"
-        value={form.bio}
-        onChange={handleChange}
-      />
-
-      <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
-        <button onClick={handleSave}>Save</button>
-        <button onClick={() => navigate(-1)}>Cancel</button>
+      <div className="form-group">
+        <label>Full Name</label>
+        <input
+          name="name"
+          placeholder="Name"
+          value={form.name}
+          onChange={handleChange}
+        />
       </div>
-    </>
+
+      <div className="form-group">
+        <label>Email Address</label>
+        <input
+          name="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Description / Bio</label>
+        <textarea
+          name="bio"
+          placeholder="Bio"
+          value={form.bio}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="edit-actions">
+        <button className="btn-primary" onClick={handleSave}>Save Changes</button>
+        <button className="btn-secondary" onClick={() => navigate(-1)}>Cancel</button>
+      </div>
+    </div>
   );
 };
 

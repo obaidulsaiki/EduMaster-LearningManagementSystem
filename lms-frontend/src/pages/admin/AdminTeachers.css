@@ -28,6 +28,12 @@
   border: 1px solid var(--bg-muted);
   background: var(--bg-surface);
   color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-search:focus {
+  border-color: var(--primary);
 }
 
 .admin-search::placeholder {

@@ -50,11 +50,14 @@ public class Course {
     private List<Review> reviews;
     /* AUTO TIMESTAMPS */
     private int lecturesCount;
+    private boolean enabled = true;
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments;
 

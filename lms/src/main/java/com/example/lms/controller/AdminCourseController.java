@@ -16,14 +16,18 @@ public class AdminCourseController {
     @GetMapping
     public Page<CourseAdminDTO> list(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(required = false) String search
-    ) {
+            @RequestParam(required = false) String search) {
         return service.getCourses(page, search);
     }
 
     @GetMapping("/{id}")
     public CourseAdminDTO get(@PathVariable Long id) {
         return service.getCourse(id);
+    }
+
+    @PutMapping("/{id}/toggle")
+    public void toggle(@PathVariable Long id) {
+        service.toggleStatus(id);
     }
 
     @DeleteMapping("/{id}")

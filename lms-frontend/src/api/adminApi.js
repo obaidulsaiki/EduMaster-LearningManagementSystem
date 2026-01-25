@@ -17,6 +17,9 @@ export const updateAdminTeacher = (id, data) =>
 export const deleteAdminTeacher = (id) =>
   api.delete(`/admin/teachers/${id}`);
 
+export const toggleAdminTeacherStatus = (id) =>
+  api.put(`/admin/teachers/${id}/toggle`);
+
 /* ===== STUDENTS ===== */
 export const getAdminStudents = (page = 0, search = "") =>
   api.get("/admin/students", { params: { page, search } });
@@ -24,12 +27,18 @@ export const getAdminStudents = (page = 0, search = "") =>
 export const deleteAdminStudent = (id) =>
   api.delete(`/admin/students/${id}`);
 
+export const toggleAdminStudentStatus = (id) =>
+  api.put(`/admin/students/${id}/toggle`);
+
 /* ===== COURSES ===== */
 export const getAdminCourses = (page = 0, search = "") =>
   api.get("/admin/courses", { params: { page, search } });
 
 export const deleteAdminCourse = (id) =>
   api.delete(`/admin/courses/${id}`);
+
+export const toggleAdminCourseStatus = (id) =>
+  api.put(`/admin/courses/${id}/toggle`);
 
 export const publishAdminCourse = (id) =>
   api.put(`/admin/courses/${id}/publish`);

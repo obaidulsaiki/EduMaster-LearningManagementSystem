@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCourseDetails } from "../api/courseApi";
-import { getEnrollmentStatus } from "../api/studentEnrollmentApi";
+import { getEnrollmentStatus, enrollCourse } from "../api/studentEnrollmentApi";
 import "./CourseDetails.css";
 
 const CourseDetails = () => {
@@ -64,9 +64,15 @@ const CourseDetails = () => {
       : lectures[0] || null;
 
   /* ================= CTA ================= */
-  const handlePrimaryAction = () => {
+  const handlePrimaryAction = async () => {
     if (!enrolled) {
-      navigate(`/course/${courseId}/enroll`);
+      try {
+        await enrollCourse(courseId);
+        navigate(`/course/${courseId}/payment`);
+      } catch (err) {
+        console.error("Enrollment failed", err);
+        alert("Enrollment failed. Please try again.");
+      }
       return;
     }
 
@@ -106,21 +112,25 @@ const CourseDetails = () => {
 
       <ul className="lecture-list">
         {lectures.map((lecture, index) => {
-          const locked =
-            !enrolled || (currentIndex !== -1 && index > currentIndex + 1);
+          const locked = !enrolled || index > currentIndex + 1;
+          const isDone = enrolled && currentIndex !== -1 && index <= currentIndex;
+          const isNext = enrolled && index === currentIndex + 1;
 
           return (
             <li
               key={lecture.id}
-              className={`lecture-item ${locked ? "locked" : ""}`}
+              className={`lecture-item ${locked ? "locked" : ""} ${isDone ? "completed" : ""}`}
               onClick={() =>
                 !locked && navigate(`/course/${courseId}/lecture/${lecture.id}`)
               }
             >
-              {lecture.title}
+              <div className="lecture-title-row">
+                {isDone && <span className="done-icon">✔</span>}
+                {lecture.title}
+              </div>
 
-              {lecture.id === resumeLectureId && (
-                <span className="resume-badge">Current</span>
+              {isNext && enrolled && (
+                <span className="resume-badge">Next</span>
               )}
 
               {locked && <span> 🔒</span>}

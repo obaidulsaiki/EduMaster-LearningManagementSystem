@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TeacherExperienceRepository extends JpaRepository<TeacherExperience, Long> {
-    List<TeacherExperience> findTeacherEducationByTeacher_Id(Long teacherId);
+    List<TeacherExperience> findByTeacher_Id(Long teacherId);
 }

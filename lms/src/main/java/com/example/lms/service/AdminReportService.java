@@ -18,11 +18,11 @@ public class AdminReportService {
         int m = Integer.parseInt(parts[1]);
 
         MonthlyReportDTO dto = new MonthlyReportDTO();
-        dto.setRevenue(enrollmentRepository.sumTotalPaidRevenue());
+        dto.setRevenue(enrollmentRepository.sumMonthlyRevenue(m, year));
         dto.setNewStudents(enrollmentRepository.countMonthlyEnrollments(m, year));
         dto.setCompletedCourses(enrollmentRepository.countMonthlyCompletions(m, year));
+        dto.setActiveStudents(enrollmentRepository.countMonthlyActiveStudents(m, year));
 
         return dto;
     }
 }
-

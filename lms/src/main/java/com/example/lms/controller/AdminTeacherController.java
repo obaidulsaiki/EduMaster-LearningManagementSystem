@@ -16,17 +16,25 @@ public class AdminTeacherController {
     @GetMapping
     public Page<TeacherAdminDTO> getTeachers(
             @RequestParam int page,
-            @RequestParam(required = false) String search
-    ) {
+            @RequestParam(required = false) String search) {
         return service.getTeachers(page, search);
+    }
+
+    @GetMapping("/{id}")
+    public TeacherAdminDTO getTeacher(@PathVariable Long id) {
+        return service.getTeacher(id);
     }
 
     @PutMapping("/{id}")
     public TeacherAdminDTO update(
             @PathVariable Long id,
-            @RequestBody TeacherAdminDTO dto
-    ) {
+            @RequestBody TeacherAdminDTO dto) {
         return service.updateTeacher(id, dto);
+    }
+
+    @PutMapping("/{id}/toggle")
+    public void toggle(@PathVariable Long id) {
+        service.toggleStatus(id);
     }
 
     @DeleteMapping("/{id}")

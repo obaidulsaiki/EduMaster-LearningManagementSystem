@@ -23,6 +23,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const isHome = location.pathname === "/";
 
@@ -81,7 +82,17 @@ const Navbar = () => {
         {/* SEARCH */}
         <div className="navbar-search">
           <Search size={18} />
-          <input type="text" placeholder="Search for courses..." />
+          <input
+            type="text"
+            placeholder="Search for courses..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate(`/browse?search=${encodeURIComponent(searchQuery)}`);
+              }
+            }}
+          />
         </div>
 
         {/* NAV LINKS */}

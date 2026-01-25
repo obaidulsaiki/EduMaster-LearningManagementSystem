@@ -28,8 +28,14 @@ public class AdminStudentService {
     public StudentAdminDTO getStudent(Long id) {
         return toDto(
                 studentRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Student not found"))
-        );
+                        .orElseThrow(() -> new RuntimeException("Student not found")));
+    }
+
+    public void toggleStatus(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+        student.setEnabled(!student.isEnabled());
+        studentRepository.save(student);
     }
 
     public void deleteStudent(Long id) {
@@ -41,6 +47,7 @@ public class AdminStudentService {
         dto.setId(s.getId());
         dto.setName(s.getName());
         dto.setEmail(s.getEmail());
+        dto.setEnabled(s.isEnabled());
         return dto;
     }
 }

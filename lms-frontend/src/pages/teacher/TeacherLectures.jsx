@@ -20,6 +20,15 @@ const TeacherLectures = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [editingLecture, setEditingLecture] = useState(null);
+  
+  const [notification, setNotification] = useState(null);
+
+  /* ================= NOTIFY ================= */
+
+  const showNotify = (msg, type = "success") => {
+    setNotification({ msg, type });
+    setTimeout(() => setNotification(null), 3000);
+  };
 
   /* ================= LOAD ================= */
 
@@ -55,8 +64,9 @@ const TeacherLectures = () => {
         courseId,
         newList.map((l) => l.id),
       );
+      showNotify("Order updated");
     } catch {
-      alert("Failed to reorder lectures");
+      showNotify("Failed to reorder", "error");
       loadLectures(); // rollback
     }
   };
@@ -65,6 +75,12 @@ const TeacherLectures = () => {
 
   return (
     <div className="teacher-lectures-page">
+      {notification && (
+        <div className={`notification ${notification.type}`}>
+          {notification.msg}
+        </div>
+      )}
+
       <div className="header">
         <h2>Lectures</h2>
         <button
@@ -110,10 +126,11 @@ const TeacherLectures = () => {
                     if (!window.confirm("Delete this lecture?")) return;
 
                     try {
-                      await deleteLecture(courseId, lec.id);
+                      await deleteLecture(lec.id);
                       setLectures(lectures.filter((l) => l.id !== lec.id));
+                      showNotify("Delete successfully");
                     } catch {
-                      alert("Failed to delete lecture");
+                      showNotify("Failed to delete", "error");
                     }
                   }}
                 >
@@ -137,7 +154,6 @@ const TeacherLectures = () => {
             try {
               if (editingLecture) {
                 const res = await updateLecture(
-                  courseId,
                   editingLecture.id,
                   data,
                 );
@@ -147,15 +163,17 @@ const TeacherLectures = () => {
                     l.id === editingLecture.id ? res.data : l,
                   ),
                 );
+                showNotify("Save successfully");
               } else {
                 const res = await addLecture(courseId, data);
                 setLectures([...lectures, res.data]);
+                showNotify("Lecture added successfully");
               }
 
               setShowModal(false);
               setEditingLecture(null);
             } catch {
-              alert("Failed to save lecture");
+              showNotify("Failed to save", "error");
             }
           }}
         />

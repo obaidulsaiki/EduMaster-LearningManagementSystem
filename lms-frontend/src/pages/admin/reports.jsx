@@ -38,19 +38,32 @@ const AdminReports = () => {
         <button onClick={load} disabled={loading}>
           {loading ? "Generating..." : "Generate"}
         </button>
+        {report && (
+          <button className="btn-outline" onClick={() => window.print()}>
+            Download PDF
+          </button>
+        )}
       </div>
 
       {/* ===== REPORT ===== */}
       {report && (
-        <div className="report-grid">
+        <>
+          <div className="print-only-header">
+            <h1>EduMaster LMS - Monthly Analytics Report</h1>
+            <p><strong>Month:</strong> {month}</p>
+            <p><strong>Generated on:</strong> {new Date().toLocaleString()}</p>
+            <hr />
+          </div>
+
+          <div className="report-grid">
           <div className="report-card">
             <h4>Total Revenue</h4>
-            <p>${report.totalRevenue}</p>
+            <p>${report.revenue || 0}</p>
           </div>
 
           <div className="report-card">
             <h4>New Enrollments</h4>
-            <p>{report.totalEnrollments}</p>
+            <p>{report.newStudents || 0}</p>
           </div>
 
           <div className="report-card">
@@ -62,7 +75,8 @@ const AdminReports = () => {
             <h4>Active Students</h4>
             <p>{report.activeStudents}</p>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

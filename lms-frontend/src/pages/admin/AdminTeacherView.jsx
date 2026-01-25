@@ -6,12 +6,19 @@ const AdminTeacherView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [teacher, setTeacher] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getAdminTeacherById(id).then((res) => setTeacher(res.data));
+    getAdminTeacherById(id)
+      .then((res) => setTeacher(res.data))
+      .catch((err) => {
+        console.error("Failed to load teacher", err);
+        setError("Teacher not found or server error");
+      });
   }, [id]);
 
-  if (!teacher) return <p>Loading...</p>;
+  if (error) return <p className="error-text">{error}</p>;
+  if (!teacher || teacher.id.toString() !== id.toString()) return <p>Loading...</p>;
 
   return (
     <>
@@ -31,7 +38,7 @@ const AdminTeacherView = () => {
       {teacher.educations?.length ? (
         teacher.educations.map((e) => (
           <p key={e.id}>
-            {e.degree} – {e.institute} ({e.startYear}–{e.endYear || "Present"})
+            {e.degree} in {e.major} – {e.institution} ({e.startDate ? new Date(e.startDate).getFullYear() : ""} – {e.endDate ? new Date(e.endDate).getFullYear() : "Present"})
           </p>
         ))
       ) : (
@@ -42,14 +49,16 @@ const AdminTeacherView = () => {
       {teacher.experiences?.length ? (
         teacher.experiences.map((ex) => (
           <p key={ex.id}>
-            {ex.role} @ {ex.company} ({ex.startYear}–{ex.endYear || "Present"})
+            {ex.designation} @ {ex.company} ({ex.startDate ? new Date(ex.startDate).getFullYear() : ""} – {ex.endDate ? new Date(ex.endDate).getFullYear() : "Present"})
           </p>
         ))
       ) : (
         <p>No experience info</p>
       )}
 
-      <button onClick={() => navigate(-1)}>← Back</button>
+      <button className="btn-secondary" onClick={() => navigate(-1)} style={{marginTop: 20}}>
+        ← Back
+      </button>
     </>
   );
 };

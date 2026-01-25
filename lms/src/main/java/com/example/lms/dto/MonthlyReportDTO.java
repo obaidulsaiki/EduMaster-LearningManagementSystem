@@ -9,4 +9,5 @@ public class MonthlyReportDTO {
     private BigDecimal revenue;
     private long newStudents;
     private long completedCourses;
+    private long activeStudents;
 }

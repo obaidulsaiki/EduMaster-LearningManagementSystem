@@ -10,6 +10,8 @@ import com.example.lms.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.example.lms.repository.CompleteLectureRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class TeacherLectureService {
     private final TeacherRepository teacherRepository;
     private final CourseRepository courseRepository;
     private final LectureRepository lectureRepository;
+    private final CompleteLectureRepository completeLectureRepository;
 
     private Teacher getTeacher(Authentication auth) {
         return teacherRepository.findByEmail(auth.getName())
@@ -48,12 +51,14 @@ public class TeacherLectureService {
         }
         return list;
     }
+
     public int getLecturesCount(Authentication auth, Long courseId) {
         Teacher teacher = getTeacher(auth);
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
         return course.getLectures().size();
     }
+
     public LectureDTO addLecture(Authentication auth, Long courseId, LectureDTO dto) {
         Teacher teacher = getTeacher(auth);
 
@@ -95,6 +100,7 @@ public class TeacherLectureService {
         return dto;
     }
 
+    @Transactional
     public void deleteLecture(Authentication auth, Long lectureId) {
         Teacher teacher = getTeacher(auth);
 
@@ -105,6 +111,10 @@ public class TeacherLectureService {
             throw new RuntimeException("Unauthorized");
         }
 
+        // 1. Delete all completion records (Fixes Constraint Error)
+        completeLectureRepository.deleteByLecture_Id(lectureId);
+
+        // 2. Delete the lecture
         lectureRepository.delete(lecture);
     }
 
@@ -126,4 +136,3 @@ public class TeacherLectureService {
         }
     }
 }
-

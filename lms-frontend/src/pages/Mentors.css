@@ -1,0 +1,121 @@
+.mentors-page {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mentors-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.mentors-header h1 {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.mentors-header p {
+    color: var(--text-muted);
+}
+
+.mentors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.mentor-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--bg-muted);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+body.dark .mentor-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mentor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .mentor-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.mentor-card-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--primary);
+}
+
+.mentor-field {
+    font-size: 0.9rem;
+    color: var(--primary);
+    opacity: 0.8;
+    margin: 0.25rem 0 1rem;
+    font-weight: 600;
+}
+
+.mentor-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.mentor-bio {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-main);
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.mentor-experience-list {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--bg-muted);
+    padding-top: 1rem;
+}
+
+body.dark .mentor-experience-list {
+    border-color: #334155;
+}
+
+.mentor-experience-list h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.experience-item {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-muted);
+}
+
+.mentors-loading,
+.mentors-error {
+    text-align: center;
+    padding: 5rem;
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.mentors-error {
+    color: #dc3545;
+}

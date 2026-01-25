@@ -44,6 +44,8 @@ public class CourseService {
             dto.setTeacherName(course.getTeacher().getName());
         }
 
+        dto.setLectureCount(lectureRepository.countByCourse_CourseId(courseId));
+
         return dto;
     }
 
@@ -51,10 +53,10 @@ public class CourseService {
         return teacherRepository.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("Teacher not found"));
     }
+
     public List<String> getAllCategories() {
         return courseRepository.findDistinctCategories();
     }
-
 
     private Course getOwnedCourse(Long courseId, Teacher teacher) {
         Course course = courseRepository.findById(courseId)
@@ -77,6 +79,7 @@ public class CourseService {
         course.setPrice(dto.getPrice());
         course.setCategory(dto.getCategory());
         course.setPublished(false);
+        course.setEnabled(true);
         course.setTeacher(teacher);
 
         courseRepository.save(course);
@@ -86,8 +89,7 @@ public class CourseService {
     public List<CourseDTO> getMyCourses(Authentication auth) {
         Teacher teacher = getTeacher(auth);
 
-        List<Course> courses =
-                courseRepository.findCourseByTeacher_id(teacher.getId());
+        List<Course> courses = courseRepository.findCourseByTeacher_id(teacher.getId());
 
         List<CourseDTO> result = new ArrayList<>();
 
@@ -100,8 +102,7 @@ public class CourseService {
     public CourseDTO updateCourse(
             Authentication auth,
             Long courseId,
-            CourseDTO dto
-    ) {
+            CourseDTO dto) {
         Teacher teacher = getTeacher(auth);
         Course course = getOwnedCourse(courseId, teacher);
 
@@ -119,8 +120,7 @@ public class CourseService {
         Teacher teacher = getTeacher(auth);
         Course course = getOwnedCourse(courseId, teacher);
 
-        List<Lecture> lectures =
-                (List<Lecture>) lectureRepository.findByCourse_CourseIdOrderByOrderIndexAsc(courseId);
+        List<Lecture> lectures = (List<Lecture>) lectureRepository.findByCourse_CourseIdOrderByOrderIndexAsc(courseId);
 
         for (Lecture l : lectures) {
             lectureRepository.delete(l);
@@ -133,13 +133,11 @@ public class CourseService {
 
     public List<LectureDTO> getLecturesByCourse(
             Authentication auth,
-            Long courseId
-    ) {
+            Long courseId) {
         Teacher teacher = getTeacher(auth);
         getOwnedCourse(courseId, teacher);
 
-        List<Lecture> lectures =
-                (List<Lecture>) lectureRepository.findByCourse_CourseIdOrderByOrderIndexAsc(courseId);
+        List<Lecture> lectures = (List<Lecture>) lectureRepository.findByCourse_CourseIdOrderByOrderIndexAsc(courseId);
 
         List<LectureDTO> result = new ArrayList<>();
 
@@ -152,13 +150,11 @@ public class CourseService {
     public LectureDTO addLecture(
             Authentication auth,
             Long courseId,
-            LectureDTO dto
-    ) {
+            LectureDTO dto) {
         Teacher teacher = getTeacher(auth);
         Course course = getOwnedCourse(courseId, teacher);
 
-        List<Lecture> maxOrder =
-                lectureRepository.findByCourse_CourseIdOrderByOrderIndexAsc(courseId);
+        List<Lecture> maxOrder = lectureRepository.findByCourse_CourseIdOrderByOrderIndexAsc(courseId);
 
         int maxOrderValue = maxOrder.isEmpty() ? 0 : maxOrder.get(maxOrder.size() - 1).getOrderIndex();
 
@@ -174,8 +170,7 @@ public class CourseService {
     public LectureDTO updateLecture(
             Authentication auth,
             Long lectureId,
-            LectureDTO dto
-    ) {
+            LectureDTO dto) {
         Teacher teacher = getTeacher(auth);
 
         Lecture lecture = lectureRepository.findById(lectureId)
@@ -210,8 +205,7 @@ public class CourseService {
     public void reorderLectures(
             Authentication auth,
             Long courseId,
-            List<Long> lectureIds
-    ) {
+            List<Long> lectureIds) {
         Teacher teacher = getTeacher(auth);
         getOwnedCourse(courseId, teacher);
 
@@ -233,8 +227,8 @@ public class CourseService {
             String category,
             Double minPrice,
             Double maxPrice,
-            String sort
-    ) {
+            String sort,
+            String search) {
         Sort sorting = Sort.unsorted();
 
         if (sort != null && sort.contains(",")) {
@@ -243,8 +237,7 @@ public class CourseService {
                     "desc".equalsIgnoreCase(parts[1])
                             ? Sort.Direction.DESC
                             : Sort.Direction.ASC,
-                    parts[0]
-            );
+                    parts[0]);
         }
 
         Pageable pageable = PageRequest.of(page, size, sorting);
@@ -263,11 +256,14 @@ public class CourseService {
             if (maxPrice != null)
                 predicates.add(cb.le(root.get("price"), maxPrice));
 
+            if (search != null && !search.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("title")), "%" + search.toLowerCase() + "%"));
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-        Page<Course> pageResult =
-                courseRepository.findAll(spec, pageable);
+        Page<Course> pageResult = courseRepository.findAll(spec, pageable);
 
         List<CourseDTO> courses = new ArrayList<>();
         for (Course c : pageResult.getContent()) {
@@ -295,6 +291,7 @@ public class CourseService {
         dto.setPublished(course.getPublished());
         dto.setTeacherId(course.getTeacher().getId());
         dto.setTeacherName(course.getTeacher().getName());
+        dto.setLectureCount(lectureRepository.countByCourse_CourseId(course.getCourseId()));
         return dto;
     }
 
@@ -318,8 +315,7 @@ public class CourseService {
         }
 
         // ===== LECTURES =====
-        List<Lecture> lectureEntities =
-                lectureRepository.findByCourse_CourseId(courseId);
+        List<Lecture> lectureEntities = lectureRepository.findByCourse_CourseId(courseId);
 
         List<LectureResponseDTO> lectureDTOs = new ArrayList<>();
         for (Lecture lecture : lectureEntities) {

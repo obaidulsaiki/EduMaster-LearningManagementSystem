@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "./AdminLayout";
 import AdminTable from "../../components/Admin/AdminTable";
-import { getAdminStudents, deleteAdminStudent } from "../../api/adminApi";
+import { getAdminStudents, toggleAdminStudentStatus } from "../../api/adminApi";
 import "./AdminStudents.css";
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
@@ -56,14 +56,21 @@ const AdminStudents = () => {
         actions={(s) => (
           <div className="admin-actions">
             <button
-              className="btn-danger"
+              style={{
+                backgroundColor: s.enabled ? "#ef4444" : "#10b981",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                padding: "6px 12px"
+              }}
               onClick={async () => {
-                if (!confirm("Delete this student permanently?")) return;
-                await deleteAdminStudent(s.id);
+                const action = s.enabled ? "Disable" : "Enable";
+                if (!confirm(`${action} this student?`)) return;
+                await toggleAdminStudentStatus(s.id);
                 load();
               }}
             >
-              Delete
+              {s.enabled ? "Disable" : "Enable"}
             </button>
           </div>
         )}

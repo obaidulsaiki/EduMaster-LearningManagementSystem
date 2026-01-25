@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CourseCard from "../components/CourseCard";
 import Filters from "../components/Filters";
 import { fetchCourses } from "../services/courseService";
 import "./BrowseCourses.css";
 
 function BrowseCourses() {
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -18,7 +22,7 @@ function BrowseCourses() {
 
   useEffect(() => {
     loadCourses();
-  }, [page, filters]);
+  }, [page, filters, searchQuery]);
 
   const loadCourses = async () => {
     try {
@@ -29,6 +33,7 @@ function BrowseCourses() {
         minPrice: filters.minPrice || null,
         maxPrice: filters.maxPrice || null,
         sort: filters.sort || null,
+        search: searchQuery || null,
       });
 
       setCourses(data.courses);

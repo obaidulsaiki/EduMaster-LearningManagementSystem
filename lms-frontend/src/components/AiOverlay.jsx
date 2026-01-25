@@ -79,11 +79,13 @@ function AiOverlay({ onClose }) {
           >
             <p>{m.text}</p>
             {m.action && m.action.actionType !== "NONE" && (
-              <button 
+              <button
                 className="ai-action-btn"
                 onClick={() => handleAction(m.action)}
               >
-                {m.action.actionType === "NAVIGATE" ? "Go there now" : "View Suggestion"}
+                {m.action.actionType === "NAVIGATE"
+                  ? "Go there now"
+                  : "View Suggestion"}
               </button>
             )}
           </div>

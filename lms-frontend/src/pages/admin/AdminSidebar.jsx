@@ -8,6 +8,7 @@ import {
   UserCog,
   Settings,
   LogOut,
+  CreditCard,
 } from "lucide-react";
 import "./AdminLayout.css";
 
@@ -48,6 +49,11 @@ const AdminSidebar = () => {
           to="/admin/reports"
           icon={<FileText size={18} />}
           label="Reports"
+        />
+        <NavItem
+          to="/admin/payments"
+          icon={<CreditCard size={18} />}
+          label="Payments"
         />
 
         <div className="admin-divider" />

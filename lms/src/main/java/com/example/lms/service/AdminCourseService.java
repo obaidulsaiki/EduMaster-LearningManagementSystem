@@ -28,8 +28,14 @@ public class AdminCourseService {
     public CourseAdminDTO getCourse(Long id) {
         return toDto(
                 courseRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Course not found"))
-        );
+                        .orElseThrow(() -> new RuntimeException("Course not found")));
+    }
+
+    public void toggleStatus(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+        course.setEnabled(!course.isEnabled());
+        courseRepository.save(course);
     }
 
     public void deleteCourse(Long id) {
@@ -50,6 +56,7 @@ public class AdminCourseService {
         dto.setTitle(c.getTitle());
         dto.setPrice(c.getPrice());
         dto.setPublished(Boolean.TRUE.equals(c.getPublished()));
+        dto.setEnabled(c.isEnabled());
         return dto;
     }
 }

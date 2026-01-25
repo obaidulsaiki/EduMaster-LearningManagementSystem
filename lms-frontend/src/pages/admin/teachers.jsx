@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminTable from "../../components/Admin/AdminTable";
-import { getAdminTeachers, deleteAdminTeacher } from "../../api/adminApi";
+import { getAdminTeachers, toggleAdminTeacherStatus } from "../../api/adminApi";
+import "./AdminTeachers.css";
 
 const AdminTeachers = () => {
   const navigate = useNavigate();
@@ -32,14 +33,17 @@ const AdminTeachers = () => {
 
   return (
     <>
-      <h2>Teachers</h2>
-
-      <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
-        <input
-          placeholder="Search teacher..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      <div className="admin-page-header">
+        <h2>Teachers</h2>
+        <div className="admin-actions">
+          <input
+            className="admin-search"
+            placeholder="Search teacher..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="btn-primary">Search</button>
+        </div>
       </div>
 
       <AdminTable
@@ -56,13 +60,19 @@ const AdminTeachers = () => {
             </button>
 
             <button
+              style={{
+                backgroundColor: t.enabled ? "#ef4444" : "#10b981",
+                color: "white",
+                border: "none",
+              }}
               onClick={async () => {
-                if (!confirm("Delete this teacher?")) return;
-                await deleteAdminTeacher(t.id);
+                const action = t.enabled ? "Disable" : "Enable";
+                if (!confirm(`${action} this teacher?`)) return;
+                await toggleAdminTeacherStatus(t.id);
                 load();
               }}
             >
-              Delete
+              {t.enabled ? "Disable" : "Enable"}
             </button>
           </>
         )}
