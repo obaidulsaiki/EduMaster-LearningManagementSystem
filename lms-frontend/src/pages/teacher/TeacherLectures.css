@@ -1,8 +1,8 @@
 .teacher-lectures-page {
   padding-top: 120px;
   min-height: 100vh;
-  background: var(--bg-page);
-  color: var(--text-primary);
+  background: var(--bg-main);
+  color: var(--text-main);
   padding-inline: 40px;
 }
 
@@ -11,7 +11,28 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--bg-muted);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: var(--bg-muted);
 }
 
 /* ================= LECTURE LIST ================= */
@@ -25,8 +46,8 @@
 /* ================= LECTURE CARD ================= */
 
 .lecture-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-muted);
   border-radius: 12px;
   padding: 14px 18px;
   display: flex;
@@ -40,7 +61,7 @@
 .order {
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--accent);
+  color: var(--primary);
 }
 
 /* ================= INFO ================= */
@@ -53,12 +74,12 @@
 .lecture-info h4 {
   margin: 0;
   font-size: 1rem;
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .lecture-info p {
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 /* ================= ACTIONS ================= */
@@ -69,9 +90,9 @@
 }
 
 .lecture-actions button {
-  background: var(--bg-input);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  background: var(--bg-muted);
+  border: 1px solid var(--bg-muted);
+  color: var(--text-main);
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
@@ -80,8 +101,7 @@
 }
 
 .lecture-actions button:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
+  background: var(--bg-surface);
 }
 
 /* ================= DELETE BUTTON ================= */

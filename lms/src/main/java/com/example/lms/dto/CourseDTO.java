@@ -15,5 +15,6 @@ public class CourseDTO {
     private String teacherName; // Frontend just needs the name, not full Teacher object
     private Long teacherId;
     private int lectureCount;// Useful for linking
-
+    private double averageRating;
+    private int totalRatings;
 }

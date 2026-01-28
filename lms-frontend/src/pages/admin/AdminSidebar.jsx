@@ -55,6 +55,11 @@ const AdminSidebar = () => {
           icon={<CreditCard size={18} />}
           label="Payments"
         />
+        <NavItem
+          to="/admin/revenue"
+          icon={<CreditCard size={18} />} // Can use Banknote or similar if available, but let's stick to simple
+          label="Financials"
+        />
 
         <div className="admin-divider" />
 

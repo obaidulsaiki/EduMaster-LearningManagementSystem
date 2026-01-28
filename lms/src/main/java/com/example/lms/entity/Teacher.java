@@ -13,7 +13,10 @@ public class Teacher extends BaseUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
+
+    private java.math.BigDecimal balance = java.math.BigDecimal.ZERO;
+    private java.math.BigDecimal totalEarnings = java.math.BigDecimal.ZERO;
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Course> courses;
 }

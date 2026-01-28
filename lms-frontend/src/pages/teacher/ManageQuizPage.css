@@ -1,0 +1,151 @@
+.manage-quiz-page {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--bg-surface);
+    border-radius: 12px;
+}
+
+.manage-quiz-page .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    background: var(--bg-surface);
+    padding: 1rem 0;
+    z-index: 10;
+    border-bottom: 2px solid var(--bg-muted);
+}
+
+.manage-quiz-page h2 {
+    color: var(--text-main);
+    font-size: 1.75rem;
+}
+
+.btn-save {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-save:hover {
+    background: #4338ca;
+}
+
+.question-card {
+    background: var(--bg-main);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--bg-muted);
+}
+
+.question-card h3 {
+    margin-bottom: 1rem;
+    color: var(--text-main);
+    font-size: 1.1rem;
+}
+
+.question-card textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.75rem;
+    border: 1.5px solid var(--bg-muted);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    background: var(--bg-surface);
+    color: var(--text-main);
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.option-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-surface);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.option-input label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    min-width: 60px;
+}
+
+.option-input input[type="text"] {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--bg-muted);
+    border-radius: 4px;
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+.option-input input[type="radio"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+    accent-color: #4f46e5;
+}
+
+.footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--bg-muted);
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    z-index: 1000;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+    background: #10b981;
+}
+
+.notification.error {
+    background: #ef4444;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+}

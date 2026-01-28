@@ -22,7 +22,7 @@ public class AdminProfileService {
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
 
         AdminProfile profile = profileRepository
-                .findAdminProfileByAdmin_AdId(admin.getAdId())
+                .findAdminProfileByAdmin_Id(admin.getId())
                 .orElse(null);
 
         AdminProfileDTO dto = new AdminProfileDTO();
@@ -43,7 +43,7 @@ public class AdminProfileService {
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
 
         AdminProfile profile = profileRepository
-                .findAdminProfileByAdmin_AdId(admin.getAdId())
+                .findAdminProfileByAdmin_Id(admin.getId())
                 .orElseGet(() -> {
                     AdminProfile p = new AdminProfile();
                     p.setAdmin(admin);

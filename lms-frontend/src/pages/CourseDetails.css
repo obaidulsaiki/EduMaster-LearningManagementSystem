@@ -3,112 +3,248 @@
    ========================================================= */
 
 .course-details {
-  max-width: 900px;
+  max-width: 1200px;
   margin: auto;
   padding: 32px 24px;
-
   background: var(--bg-surface);
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-
   transition: background 0.3s ease;
 }
 
-/* ================= DESCRIPTION ================= */
-.description {
-  margin-bottom: 20px;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+.course-header-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-/* ================= START / RESUME BUTTON ================= */
+.course-rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rating-avg {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #f59e0b;
+}
+
+.rating-count {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.course-desc {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 800px;
+}
+
+/* ================= CTA ================= */
+.cta-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
 .start-btn {
-  padding: 12px 24px;
-  background: var(--primary);
-  color: var(--primary-text);
-
+  padding: 14px 28px;
+  background: var(--text-main);
+  color: var(--bg-surface);
   border: none;
-  border-radius: 999px;
+  border-radius: 12px;
   cursor: pointer;
-
-  font-weight: 600;
-  font-size: 0.95rem;
-
-  transition: transform 0.2s ease, background 0.25s ease;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
-.start-btn:hover:not(:disabled) {
+.start-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.start-btn:disabled {
+.completed-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   background: var(--bg-muted);
-  color: var(--text-muted);
-  cursor: not-allowed;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border-left: 5px solid #10b981;
 }
 
-/* ================= LECTURE LIST ================= */
+.quiz-btn {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cert-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ================= GRID LAYOUT ================= */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= LECTURES ================= */
 .lecture-list {
-  margin-top: 28px;
   list-style: none;
   padding: 0;
+  background: var(--bg-muted);
+  padding: 1rem;
+  border-radius: 16px;
 }
 
 .lecture-item {
-  padding: 12px 14px;
+  padding: 1rem;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   border-radius: 10px;
   color: var(--text-main);
-
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: all 0.2s;
+  margin-bottom: 0.5rem;
 }
 
 .lecture-item:hover {
-  background: var(--bg-muted);
-  transform: translateX(4px);
-}
-
-/* ================= CURRENT / RESUME ================= */
-.lecture-item.current {
-  font-weight: 700;
-  background: rgba(56, 189, 248, 0.15);
-}
-
-/* ================= RESUME BADGE ================= */
-.resume-badge {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-
-  background: var(--primary);
-  color: var(--primary-text);
+  background: var(--bg-surface);
+  transform: translateX(5px);
 }
 
 .lecture-item.completed {
   border-left: 4px solid #10b981;
 }
 
-.lecture-title-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.lecture-item.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.done-icon {
-  background: #10b981;
-  color: white;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
+/* ================= REVIEWS ================= */
+.review-submission-section {
+  background: var(--bg-muted);
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+}
+
+.review-form {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  font-weight: 900;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.rating-selector {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.rating-selector button {
+  padding: 0.5rem;
+  border: 1px solid var(--text-muted);
+  background: transparent;
+  color: var(--text-main);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.rating-selector button.selected {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: white;
+}
+
+.review-form textarea {
+  min-height: 100px;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--text-muted);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  resize: vertical;
+}
+
+.review-form button[type="submit"] {
+  background: var(--text-main);
+  color: var(--bg-surface);
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reviews-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.review-card {
+  padding: 1.25rem;
+  background: var(--bg-surface);
+  border-radius: 12px;
+  border: 1px solid var(--bg-muted);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.rev-name {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.rev-rating {
+  color: #f59e0b;
+  font-weight: 800;
+}
+
+.rev-comment {
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.rev-date {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }

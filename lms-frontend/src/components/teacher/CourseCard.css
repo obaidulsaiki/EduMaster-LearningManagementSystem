@@ -56,6 +56,28 @@
   color: var(--status-published-text);
 }
 
+.course-rating-mini {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.course-rating-mini .star {
+  color: #f59e0b;
+}
+
+.course-rating-mini .avg {
+  color: var(--text-primary);
+}
+
+.course-rating-mini .count {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
 /* ================= ACTION ================= */
 
 .secondary-btn {

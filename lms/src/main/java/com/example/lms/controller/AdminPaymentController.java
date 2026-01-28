@@ -37,6 +37,11 @@ public class AdminPaymentController {
         dto.setTransactionId(p.getTransactionId());
         dto.setPaidAt(p.getPaidAt().toString());
         dto.setStatus(p.getSslStatus());
+
+        java.math.BigDecimal amount = p.getAmount();
+        dto.setTeacherShare(amount.multiply(new java.math.BigDecimal("0.85")));
+        dto.setAdminShare(amount.multiply(new java.math.BigDecimal("0.15")));
+
         return dto;
     }
 
@@ -47,6 +52,8 @@ public class AdminPaymentController {
         private String studentEmail;
         private String courseTitle;
         private java.math.BigDecimal amount;
+        private java.math.BigDecimal teacherShare;
+        private java.math.BigDecimal adminShare;
         private String method;
         private String transactionId;
         private String paidAt;

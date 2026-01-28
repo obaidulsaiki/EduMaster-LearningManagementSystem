@@ -1,5 +1,9 @@
 package com.example.lms.controller;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import com.example.lms.dto.MonthlyReportDTO;
 import com.example.lms.service.AdminReportService;
 import lombok.RequiredArgsConstructor;
@@ -18,5 +22,14 @@ public class AdminReportController {
     @GetMapping
     public MonthlyReportDTO getReport(@RequestParam String month) {
         return service.getReport(month);
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<byte[]> downloadReport(@RequestParam String month) {
+        byte[] pdf = service.generateDetailedReportPdf(month);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=report-" + month + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 }

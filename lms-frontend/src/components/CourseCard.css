@@ -22,11 +22,9 @@
   position: relative;
   height: 140px;
 
-  background: linear-gradient(
-    135deg,
-    rgba(56, 189, 248, 0.9),
-    rgba(99, 102, 241, 0.9)
-  );
+  background: linear-gradient(135deg,
+      rgba(56, 189, 248, 0.9),
+      rgba(99, 102, 241, 0.9));
 
   display: flex;
   align-items: center;
@@ -101,6 +99,29 @@
   font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.6;
+}
+
+.course-rating-mini {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: -4px;
+}
+
+.course-rating-mini .star {
+  color: #f59e0b;
+}
+
+.course-rating-mini .avg {
+  color: var(--text-main);
+}
+
+.course-rating-mini .count {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.75rem;
 }
 
 /* ================= FOOTER ================= */

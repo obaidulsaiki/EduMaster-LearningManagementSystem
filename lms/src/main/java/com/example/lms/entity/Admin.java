@@ -12,5 +12,9 @@ public class Admin extends BaseUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adId;
+    @Column(name = "ad_id")
+    private Long id;
+
+    private java.math.BigDecimal balance = java.math.BigDecimal.ZERO;
+    private java.math.BigDecimal totalEarnings = java.math.BigDecimal.ZERO;
 }

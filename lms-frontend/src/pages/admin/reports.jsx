@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { getAdminReport } from "../../api/adminApi";
+import React, { useState } from "react";
+import { getAdminReport, downloadAdminReport } from "../../api/adminApi";
 import "./AdminReports.css";
 
 const AdminReports = () => {
@@ -24,6 +24,21 @@ const AdminReports = () => {
     }
   };
 
+  const handleDownload = async () => {
+    try {
+      const res = await downloadAdminReport(month);
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `Report-${month}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch {
+      alert("Failed to download PDF");
+    }
+  };
+
   return (
     <div className="admin-reports">
       <h2>Monthly Report</h2>
@@ -39,8 +54,8 @@ const AdminReports = () => {
           {loading ? "Generating..." : "Generate"}
         </button>
         {report && (
-          <button className="btn-outline" onClick={() => window.print()}>
-            Download PDF
+          <button className="btn-download" onClick={handleDownload}>
+            Download Professional PDF
           </button>
         )}
       </div>
@@ -69,6 +84,16 @@ const AdminReports = () => {
           <div className="report-card">
             <h4>Completed Courses</h4>
             <p>{report.completedCourses}</p>
+          </div>
+
+          <div className="report-card commission">
+            <h4>Admin Commission (15%)</h4>
+            <p className="highlight">${report.adminCommission?.toFixed(2) || 0}</p>
+          </div>
+
+          <div className="report-card payouts">
+            <h4>Teacher Payouts (85%)</h4>
+            <p className="highlight">${report.teacherEarnings?.toFixed(2) || 0}</p>
           </div>
 
           <div className="report-card">

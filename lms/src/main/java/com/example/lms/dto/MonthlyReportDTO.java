@@ -10,4 +10,6 @@ public class MonthlyReportDTO {
     private long newStudents;
     private long completedCourses;
     private long activeStudents;
+    private java.math.BigDecimal adminCommission;
+    private java.math.BigDecimal teacherEarnings;
 }

@@ -16,11 +16,7 @@ public class CourseController {
 
     private final CourseService courseService;
 
-    /*
-     * ======================================================
-     * =============== PUBLIC (STUDENTS) ====================
-     * ======================================================
-     */
+    // public student
 
     // 🔍 Browse & filter courses
     @GetMapping("/filter")

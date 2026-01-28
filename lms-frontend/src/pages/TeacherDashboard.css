@@ -11,6 +11,11 @@
   margin-bottom: 24px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
 /* ===== STATS ===== */
 .stats-grid {
   display: grid;

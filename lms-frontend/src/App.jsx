@@ -15,6 +15,10 @@ import TeacherProfile from "./pages/TeacherProfile";
 import TeacherCourses from "./pages/teacher/TeacherCourses.jsx";
 import CreateCourse from "./pages/CreateCourse.jsx";
 import TeacherLectures from "./pages/teacher/TeacherLectures.jsx";
+import ManageQuizPage from "./pages/teacher/ManageQuizPage.jsx";
+import QuizResultsPage from "./pages/teacher/QuizResultsPage.jsx";
+import TeacherRevenuePage from "./pages/teacher/TeacherRevenuePage.jsx";
+import QuizPage from "./pages/student/QuizPage.jsx";
 import EnrollCourse from "./pages/EnrollCourse.jsx";
 import PaymentPage from "./pages/PaymentPage";
 import AdminProfile from "./pages/admin/AdminProfile.jsx";
@@ -24,6 +28,7 @@ import AdminTeachers from "./pages/admin/teachers.jsx";
 import AdminCourses from "./pages/admin/courses.jsx";
 import AdminStudents from "./pages/admin/students.jsx";
 import AdminReports from "./pages/admin/reports.jsx";
+import AdminRevenuePage from "./pages/admin/AdminRevenuePage.jsx";
 import AdminTeacherView from "./pages/admin/AdminTeacherView.jsx";
 import AdminTeacherEdit from "./pages/admin/AdminTeacherEdit.jsx";
 import AdminPayments from "./pages/admin/AdminPayments.jsx";
@@ -69,6 +74,7 @@ function App() {
               path="/course/:courseId/lecture/:lectureId"
               element={<LecturePlayer />}
             />
+            <Route path="/course/:courseId/quiz" element={<QuizPage />} />
           </Route>
         </Route>
 
@@ -84,6 +90,15 @@ function App() {
               path="/teacher/courses/:courseId/lectures"
               element={<TeacherLectures />}
             />
+            <Route path="/teacher/revenue" element={<TeacherRevenuePage />} />
+            <Route
+              path="/teacher/courses/:courseId/quiz"
+              element={<ManageQuizPage />}
+            />
+            <Route
+              path="/teacher/courses/:courseId/quiz-results"
+              element={<QuizResultsPage />}
+            />
           </Route>
         </Route>
         {/* ================== ADMIN ROUTES ================= */}
@@ -98,6 +113,7 @@ function App() {
             <Route path="courses" element={<AdminCourses />} />
             <Route path="reports" element={<AdminReports />} />
             <Route path="payments" element={<AdminPayments />} />
+            <Route path="revenue" element={<AdminRevenuePage />} />
           </Route>
           <Route path="/admin/profile" element={<AdminProfile />} />
         </Route>

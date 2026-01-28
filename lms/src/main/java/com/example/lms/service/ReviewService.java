@@ -4,11 +4,14 @@ import com.example.lms.dto.ReviewDTO;
 import com.example.lms.entity.Course;
 import com.example.lms.entity.Review;
 import com.example.lms.entity.Student;
+import com.example.lms.entity.Enrollment;
 import com.example.lms.repository.CourseRepository;
 import com.example.lms.repository.EnrollmentRepository;
 import com.example.lms.repository.ReviewRepository;
 import com.example.lms.repository.StudentRepository;
+import com.example.lms.repository.QuizResultRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,30 +25,48 @@ public class ReviewService {
     private final EnrollmentRepository enrollmentRepository;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
+    private final QuizResultRepository quizResultRepository;
 
     // --- 1. Add a Review ---
-    public ReviewDTO addReview(ReviewDTO dto) {
-        // Validation A: Check if Student and Course exist
-        if(!studentRepository.existsById(dto.getStudentId())) {
-            throw new RuntimeException("Student not found");
-        }
-        if(!courseRepository.existsById(dto.getCourseId())) {
+    public ReviewDTO addReview(Authentication auth, ReviewDTO dto) {
+        Student student = studentRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        if (!courseRepository.existsById(dto.getCourseId())) {
             throw new RuntimeException("Course not found");
         }
 
-        // Validation B: Must be Enrolled
-        boolean isEnrolled = enrollmentRepository.existsEnrollmentByStudent_IdAndCourse_CourseId(dto.getStudentId(), dto.getCourseId());
-        if (!isEnrolled) {
-            throw new RuntimeException("You can only review courses you are enrolled in.");
+        Long studentId = student.getId();
+
+        // Validation B: Must be Enrolled & Paid
+        Enrollment enrollment = enrollmentRepository.findEnrollmentByStudent_IdAndCourse_CourseId(studentId,
+                dto.getCourseId());
+        if (enrollment == null) {
+            throw new RuntimeException("You must be enrolled to review this course.");
+        }
+        if (!enrollment.isPaid()) {
+            throw new RuntimeException("You can only review courses you have purchased.");
         }
 
-        // Validation C: One Review per Course [cite: 19]
-        if (reviewRepository.existsByStudentIdAndCourseCourseId(dto.getStudentId(), dto.getCourseId())) {
+        // Validation C: Must have passed the quiz
+        boolean passed = quizResultRepository.findByStudent_IdAndQuiz_Course_CourseId(studentId, dto.getCourseId())
+                .map(r -> r.getPassed())
+                .orElse(false);
+        if (!passed) {
+            throw new RuntimeException("You must pass the course quiz (score 15/20) to leave a review.");
+        }
+
+        // Validation D: Rating 1-10
+        if (dto.getRating() < 1 || dto.getRating() > 10) {
+            throw new RuntimeException("Rating must be between 1 and 10.");
+        }
+
+        // Validation E: One Review per Course
+        if (reviewRepository.existsByStudentIdAndCourseCourseId(studentId, dto.getCourseId())) {
             throw new RuntimeException("You have already reviewed this course.");
         }
 
         // Save Review
-        Student student = studentRepository.findById(dto.getStudentId()).get();
         Course course = courseRepository.findById(dto.getCourseId()).get();
 
         Review review = new Review();
@@ -70,7 +91,7 @@ public class ReviewService {
 
     // --- 2. Get Reviews for a Course ---
     public List<ReviewDTO> getCourseReviews(Long courseId) {
-        if(!courseRepository.existsById(courseId)) {
+        if (!courseRepository.existsById(courseId)) {
             throw new RuntimeException("Course not found");
         }
 

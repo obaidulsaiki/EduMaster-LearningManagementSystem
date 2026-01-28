@@ -16,5 +16,5 @@ public interface AiConversationRepository extends JpaRepository<AiConversation, 
     List<AiConversation> findAiConversationByTeacher_Id(Long teacherId);
 
     // Find chat history for an Admin
-    List<AiConversation> findByAdminAdId(Long adminId);
+    List<AiConversation> findByAdminId(Long adminId);
 }

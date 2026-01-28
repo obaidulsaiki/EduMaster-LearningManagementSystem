@@ -1,4 +1,5 @@
 package com.example.lms.dto;
+
 import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,5 +24,6 @@ public class CourseDetailsDTO {
     // ===== LECTURES =====
     private int lectureCount;
     private List<LectureResponseDTO> lectures;
+    private double averageRating;
+    private int totalRatings;
 }
-

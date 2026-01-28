@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import {
   getLectures,
@@ -14,6 +14,7 @@ import "./TeacherLectures.css";
 
 const TeacherLectures = () => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
 
   const [lectures, setLectures] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,15 +84,29 @@ const TeacherLectures = () => {
 
       <div className="header">
         <h2>Lectures</h2>
-        <button
-          className="btn-primary"
-          onClick={() => {
-            setEditingLecture(null);
-            setShowModal(true);
-          }}
-        >
-          + Add Lecture
-        </button>
+        <div className="header-actions">
+           <button
+            className="btn-secondary"
+            onClick={() => navigate(`/teacher/courses/${courseId}/quiz-results`)}
+          >
+            Quiz Results
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => navigate(`/teacher/courses/${courseId}/quiz`)}
+          >
+            Manage Quiz
+          </button>
+          <button
+            className="btn-primary"
+            onClick={() => {
+              setEditingLecture(null);
+              setShowModal(true);
+            }}
+          >
+            + Add Lecture
+          </button>
+        </div>
       </div>
 
       {lectures.length === 0 ? (

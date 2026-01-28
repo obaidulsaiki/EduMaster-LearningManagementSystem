@@ -5,6 +5,7 @@ import com.example.lms.entity.Course;
 import com.example.lms.entity.Student;
 import com.example.lms.repository.CertificateRepository;
 import com.example.lms.repository.CourseRepository;
+import com.example.lms.repository.QuizResultRepository;
 import com.example.lms.repository.StudentRepository;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
@@ -24,6 +25,7 @@ public class CertificateService {
         private final CertificateRepository certificateRepository;
         private final StudentRepository studentRepository;
         private final CourseRepository courseRepository;
+        private final QuizResultRepository quizResultRepository;
 
         /* ================= INTERNAL HELPERS ================= */
 
@@ -79,6 +81,17 @@ public class CertificateService {
 
                 Student student = getStudent(auth);
                 Course course = getCourse(courseId);
+
+                // Ensure student passed the quiz
+                boolean passedQuiz = quizResultRepository
+                                .findByStudent_IdAndQuiz_Course_CourseId(student.getId(), courseId)
+                                .map(r -> r.getPassed())
+                                .orElse(false);
+
+                if (!passedQuiz) {
+                        throw new RuntimeException(
+                                        "You must pass the course quiz (score 15/20) to download the certificate.");
+                }
 
                 // ensure certificate exists
                 generateIfNotExists(student, course);

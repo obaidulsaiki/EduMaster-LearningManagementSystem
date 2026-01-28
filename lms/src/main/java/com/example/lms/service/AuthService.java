@@ -90,7 +90,7 @@ public class AuthService {
             String token = jwtUtil.generateToken(admin.getEmail(), "ADMIN");
 
             return new LoginResponseDTO(
-                    admin.getAdId(),
+                    admin.getId(),
                     admin.getName(),
                     admin.getEmail(),
                     "ADMIN",

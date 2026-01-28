@@ -7,6 +7,7 @@ import com.example.lms.entity.Teacher;
 import com.example.lms.repository.CourseRepository;
 import com.example.lms.repository.LectureRepository;
 import com.example.lms.repository.TeacherRepository;
+import com.example.lms.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +25,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final TeacherRepository teacherRepository;
     private final LectureRepository lectureRepository;
+    private final ReviewRepository reviewRepository;
 
     /* ===================== HELPERS ===================== */
 
@@ -292,6 +294,12 @@ public class CourseService {
         dto.setTeacherId(course.getTeacher().getId());
         dto.setTeacherName(course.getTeacher().getName());
         dto.setLectureCount(lectureRepository.countByCourse_CourseId(course.getCourseId()));
+
+        Double avg = reviewRepository.getAverageRating(course.getCourseId());
+        dto.setAverageRating(avg != null ? avg : 0.0);
+        Integer count = reviewRepository.getTotalReviews(course.getCourseId());
+        dto.setTotalRatings(count != null ? count : 0);
+
         return dto;
     }
 
@@ -348,6 +356,11 @@ public class CourseService {
         // lectures
         dto.setLectureCount(lectureCount);
         dto.setLectures(lectureDTOs);
+
+        Double avg = reviewRepository.getAverageRating(courseId);
+        dto.setAverageRating(avg != null ? avg : 0.0);
+        Integer count = reviewRepository.getTotalReviews(courseId);
+        dto.setTotalRatings(count != null ? count : 0);
 
         return dto;
     }

@@ -43,6 +43,13 @@ const CourseCard = ({ course }) => {
             : "No description provided"}
         </p>
 
+        {/* ================= RATINGS ================= */}
+        <div className="course-rating-mini">
+          <span className="star">⭐</span>
+          <span className="avg">{course.averageRating?.toFixed(1) || "0.0"}</span>
+          <span className="count">({course.totalRatings || 0})</span>
+        </div>
+
         {/* ================= FOOTER ================= */}
         <div className="course-footer">
           <div className="meta-item">

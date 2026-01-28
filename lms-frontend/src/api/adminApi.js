@@ -46,3 +46,9 @@ export const publishAdminCourse = (id) =>
 /* ===== REPORTS ===== */
 export const getAdminReport = (month) =>
   api.get("/admin/reports", { params: { month } });
+
+export const downloadAdminReport = (month) =>
+  api.get("/admin/reports/download", {
+    params: { month },
+    responseType: "blob"
+  });

@@ -52,9 +52,9 @@ public class AiIntelligenceService {
                 Navigation Routes:
                 - Public: / (Home), /browse (Browse Courses), /mentors (Mentors/Teachers List), /login, /register
                 - All Roles: /settings
-                - Student: /profile, /course/{id} (Details), /course/{id}/enroll, /course/{id}/lecture/{id} (Player)
-                - Teacher: /teacher/dashboard, /teacher/profile, /teacher/courses, /teacher/courses/new, /teacher/courses/{id}/lectures
-                - Admin: /admin (Dashboard), /admin/teachers, /admin/teachers/{id}, /admin/students, /admin/courses, /admin/reports, /admin/profile
+                - Student: /profile, /course/:id (Course Details), /course/:id/enroll, /course/:id/payment, /course/:id/lecture/:id (Course Player)
+                - Teacher: /teacher/dashboard, /teacher/profile, /teacher/courses, /teacher/courses/new, /teacher/courses/:id/lectures
+                - Admin: /admin (Dashboard), /admin/teachers, /admin/teachers/:id, /admin/students, /admin/courses, /admin/reports, /admin/profile, /admin/payments
                 """;
 
         String finalPrompt = String.format("CONTEXT:\n%s\n\n%s\n\nUSER MESSAGE: %s",

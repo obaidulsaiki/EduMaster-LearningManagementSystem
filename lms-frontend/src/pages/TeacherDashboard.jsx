@@ -40,12 +40,20 @@ const TeacherDashboard = () => {
       <div className="dashboard-header">
         <h1>Teacher Dashboard</h1>
 
-        <button
-          className="btn-primary"
-          onClick={() => navigate("/teacher/courses/new")}
-        >
-          + Create Course
-        </button>
+        <div className="header-actions">
+           <button
+            className="btn-secondary"
+            onClick={() => navigate("/teacher/revenue")}
+          >
+            Financials
+          </button>
+          <button
+            className="btn-primary"
+            onClick={() => navigate("/teacher/courses/new")}
+          >
+            + Create Course
+          </button>
+        </div>
       </div>
 
       {/* ===== STATS ===== */}

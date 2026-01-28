@@ -2,10 +2,7 @@ package com.example.lms.service;
 
 import com.example.lms.dto.EnrollmentStatusDTO;
 import com.example.lms.entity.*;
-import com.example.lms.repository.CourseRepository;
-import com.example.lms.repository.EnrollmentRepository;
-import com.example.lms.repository.StudentRepository;
-import com.example.lms.repository.PaymentRepository;
+import com.example.lms.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -22,6 +19,8 @@ public class EnrollmentService {
         private final CourseRepository courseRepo;
         private final StudentRepository studentRepo;
         private final PaymentRepository paymentRepo;
+        private final TeacherRepository teacherRepo;
+        private final AdminRepository adminRepo;
 
         public void createEnrollment(Authentication auth, Long courseId) {
 
@@ -80,6 +79,37 @@ public class EnrollmentService {
 
                 paymentRepo.save(payment);
                 enrollmentRepo.save(enrollment);
+
+                // 🔥 REVENUE SPLIT (85% Teacher, 15% Admin)
+                java.math.BigDecimal amount = payment.getAmount();
+                java.math.BigDecimal teacherShare = amount.multiply(new java.math.BigDecimal("0.85"));
+                java.math.BigDecimal adminShare = amount.multiply(new java.math.BigDecimal("0.15"));
+
+                // Update Teacher Balance
+                Teacher teacher = enrollment.getCourse().getTeacher();
+                java.math.BigDecimal currentTeacherBalance = teacher.getBalance() != null ? teacher.getBalance()
+                                : java.math.BigDecimal.ZERO;
+                java.math.BigDecimal currentTeacherTotal = teacher.getTotalEarnings() != null
+                                ? teacher.getTotalEarnings()
+                                : java.math.BigDecimal.ZERO;
+
+                teacher.setBalance(currentTeacherBalance.add(teacherShare));
+                teacher.setTotalEarnings(currentTeacherTotal.add(teacherShare));
+                teacherRepo.save(teacher);
+
+                // Update Admin Balance (Primary Admin)
+                Admin admin = adminRepo.findAll().stream().findFirst().orElse(null);
+                if (admin != null) {
+                        java.math.BigDecimal currentAdminBalance = admin.getBalance() != null ? admin.getBalance()
+                                        : java.math.BigDecimal.ZERO;
+                        java.math.BigDecimal currentAdminTotal = admin.getTotalEarnings() != null
+                                        ? admin.getTotalEarnings()
+                                        : java.math.BigDecimal.ZERO;
+
+                        admin.setBalance(currentAdminBalance.add(adminShare));
+                        admin.setTotalEarnings(currentAdminTotal.add(adminShare));
+                        adminRepo.save(admin);
+                }
         }
 
         public EnrollmentStatusDTO getStatus(Authentication auth, Long courseId) {

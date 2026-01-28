@@ -37,10 +37,14 @@ function AiOverlay({ onClose }) {
       ]);
 
       // Automatically handle simple navigation if the AI suggests it
-      if (data.actionType === "NAVIGATE" && data.actionPayload) {
+      if (data.actionType === "NAVIGATE" && data.actionPayload && data.actionPayload !== "NONE") {
+        let payload = data.actionPayload;
+        if (typeof payload === "string") {
+          payload = payload.replace("/course-details/", "/course/");
+        }
         // Small delay to let user read the message
         setTimeout(() => {
-          navigate(data.actionPayload);
+          navigate(payload);
           onClose();
         }, 2000);
       }
@@ -55,11 +59,19 @@ function AiOverlay({ onClose }) {
   };
 
   const handleAction = (action) => {
+    let payload = action.actionPayload;
+    if (!payload || payload === "NONE") return;
+
+    // Fix common AI hallucinations
+    if (typeof payload === "string") {
+      payload = payload.replace("/course-details/", "/course/");
+    }
+
     if (action.actionType === "NAVIGATE") {
-      navigate(action.actionPayload);
+      navigate(payload);
       onClose();
     } else if (action.actionType === "SUGGEST_COURSE") {
-      navigate(`/course-details/${action.actionPayload}`);
+      navigate(`/course/${payload}`);
       onClose();
     }
   };
@@ -78,7 +90,7 @@ function AiOverlay({ onClose }) {
             className={`ai-message ${m.role === "user" ? "ai-user" : "ai-bot"}`}
           >
             <p>{m.text}</p>
-            {m.action && m.action.actionType !== "NONE" && (
+            {m.action && m.action.actionType !== "NONE" && m.action.actionPayload && m.action.actionPayload !== "NONE" && (
               <button
                 className="ai-action-btn"
                 onClick={() => handleAction(m.action)}
