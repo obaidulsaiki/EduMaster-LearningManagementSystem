@@ -5,15 +5,18 @@ import com.example.lms.dto.LoginRequestDTO;
 import com.example.lms.dto.LoginResponseDTO;
 import com.example.lms.dto.RegisterRequestDTO;
 import com.example.lms.dto.RegisterResponseDTO;
+import com.example.lms.dto.ResetPasswordRequestDTO;
 import com.example.lms.entity.Admin;
 import com.example.lms.entity.Student;
 import com.example.lms.entity.Teacher;
+import com.example.lms.entity.VerificationCode;
 import com.example.lms.repository.AdminRepository;
 import com.example.lms.repository.StudentRepository;
 import com.example.lms.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class AuthService {
     private final StudentRepository studentRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtUtil;
+    private final VerificationService verificationService;
 
     public RegisterResponseDTO register(RegisterRequestDTO request) {
 
@@ -150,5 +154,28 @@ public class AuthService {
         return studentRepository.existsByEmail(email)
                 || teacherRepository.existsByEmail(email)
                 || adminRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequestDTO request) {
+        if (!verificationService.verifyCode(request.getEmail(), request.getCode(),
+                VerificationCode.CodeType.RESET_PASSWORD)) {
+            throw new RuntimeException("Invalid or expired verification code");
+        }
+
+        String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+
+        studentRepository.findByEmail(request.getEmail()).ifPresent(s -> {
+            s.setPassword(encodedPassword);
+            studentRepository.save(s);
+        });
+        teacherRepository.findByEmail(request.getEmail()).ifPresent(t -> {
+            t.setPassword(encodedPassword);
+            teacherRepository.save(t);
+        });
+        adminRepository.findByEmail(request.getEmail()).ifPresent(a -> {
+            a.setPassword(encodedPassword);
+            adminRepository.save(a);
+        });
     }
 }

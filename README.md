@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/AI-Powered-FF6F00?style=for-the-badge&logo=openai&logoColor=white" alt="AI">
 </p>
 
-**A comprehensive, production-ready Learning Management System with AI-powered assistance**
+**A comprehensive, production-ready Learning Management System secured with `JWT` and powered by `PostgreSQL`**
 
 [Features](#-features) • [Tech Stack](#-tech-stack) • [API Documentation](#-rest-api-endpoints) • [Installation](#-installation) • [Screenshots](#-screenshots)
 
@@ -79,27 +79,29 @@
 - 📊 **Report Generation** - Generate detailed analytics and reports
 - 🔍 **Search & Filter** - Advanced search across all entities
 - 🚫 **Ban/Suspension** - Manage user access and platform rules
+- 📧 **System Communications** - Automated email notifications for account activities
 
 ### 🔐 Authentication & Security
-- JWT-based authentication with role-based access control (RBAC)
-- Secure password hashing with BCrypt
-- Protected routes for students, teachers, and admins
-- Email validation and verification
-- Session management and token refresh
+- 🛡️ **JWT-based Authentication** - Secure role-based access control (RBAC)
+- 🔑 **Forgot Password Flow** - Robust email-based password recovery mechanism
+- ✅ **Secure Updates** - OTP verification required for sensitive actions (email/password changes)
+- 📧 **Verification System** - Integrated one-time password (OTP) service via email
+- 🔒 **Secure Hashing** - Industry-standard BCrypt password encryption
+- 🚪 **Protected Routes** - Strict access control for student, teacher, and admin areas
+
+### 📱 Modern UI/UX (Premium Features)
+- ✨ **Glassmorphism Design** - High-end, translucent interface components
+- 🌊 **Dynamic Navbar** - Scroll-aware transitions from transparent to blurred glass
+- 🌙 **Advanced Dark Mode** - Fully consistent dark theme across all components
+- 🚀 **Smooth Transitions** - Professional animations and interactive elements
+- 📱 **Mobile First** - Perfectly responsive on all device sizes
 
 ### 🤖 AI-Powered Features
-- **LangChain4j Integration** with Ollama for local AI processing
-- Intelligent course recommendations
-- Automated quiz generation assistance
-- Context-aware learning support
-- Natural language course search
-
-### 📱 Modern UI/UX
-- Responsive design for all devices
-- Dark mode support
-- Smooth animations and transitions
-- Intuitive navigation
-- Accessible components
+- 🧠 **Context-Aware Learning** - Intelligent course-related Q&A with context memory
+- 🔍 **Natural Language Search** - Find courses using conversational queries
+- 📝 **Intelligent Quiz Generation** - AI-assisted assessment creation for teachers
+- 🎯 **Personalized Recommendations** - Smart course suggestions based on user behavior
+- ⚡ **Local AI Processing** - Powered by Ollama for privacy-focused local execution
 
 ---
 
@@ -109,17 +111,18 @@
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| **Spring Boot** | 4.0.0 | Core framework |
-| **Spring Data JPA** | - | Database ORM |
-| **Spring Security** | - | Authentication & authorization |
-| **PostgreSQL** | Latest | Primary database |
-| **JWT (jjwt)** | 0.11.5 | Token-based authentication |
-| **LangChain4j** | 0.33.0 | AI intelligence integration |
-| **Ollama** | 0.33.0 | Local AI model runtime |
-| **OpenPDF** | 1.3.30 | PDF certificate generation |
-| **Jackson** | Latest | JSON/XML processing |
-| **Lombok** | Latest | Code generation |
-| **Maven** | - | Build & dependency management |
+| **`Spring Boot`** | 4.0.0 | Core framework |
+| **`Spring Data JPA`** | - | Database ORM |
+| **`Spring Security`** | - | Authentication & authorization |
+| **`PostgreSQL`** | Latest | **Primary Database (SQL)** |
+| **`JWT (jjwt)`** | 0.11.5 | **Security Type: Token-based (Stateless)** |
+| **`LangChain4j`** | 0.33.0 | AI intelligence integration |
+| **`Ollama`** | 0.33.0 | Local AI model runtime |
+| **`Spring Mail`** | - | Email notifications & OTP system |
+| **`OpenPDF`** | 1.3.30 | PDF certificate generation |
+| **`Jackson`** | Latest | JSON/XML processing |
+| **`Lombok`** | Latest | Code generation |
+| **`Maven`** | - | Build & dependency management |
 
 ### Frontend (React)
 
@@ -179,7 +182,7 @@ lms/
 │   │   ├── TeacherLectureController.java
 │   │   └── UserSettingsController.java
 │   │
-│   ├── service/                   # 30 service classes
+│   ├── service/                   # 32 service classes
 │   │   ├── AdminCourseService.java
 │   │   ├── AdminDashboardService.java
 │   │   ├── AdminProfileService.java
@@ -193,6 +196,7 @@ lms/
 │   │   ├── CourseProgressService.java
 │   │   ├── CourseService.java
 │   │   ├── EducationService.java
+│   │   ├── EmailService.java          # New: OTP Email handling
 │   │   ├── EnrollmentService.java
 │   │   ├── FileStorageService.java
 │   │   ├── InvoiceService.java
@@ -209,6 +213,7 @@ lms/
 │   │   ├── TeacherProfileService.java
 │   │   ├── TeacherService.java
 │   │   ├── UserSettingsService.java
+│   │   ├── VerificationService.java   # New: OTP Management
 │   │   └── WithdrawalService.java
 │   │
 │   ├── entity/                    # 26 database entities
@@ -276,13 +281,15 @@ lms-frontend/
 │   │   ├── teacherCourseApi.js
 │   │   └── teacherLectureApi.js
 │   │
-│   ├── pages/                     # 62 page components
+│   ├── pages/                     # 65 page components
 │   │   ├── admin/                 # 21 admin pages
 │   │   ├── student/               # 2 student pages
 │   │   ├── teacher/               # 12 teacher pages
 │   │   ├── Home.jsx
 │   │   ├── Login.jsx
 │   │   ├── Register.jsx
+│   │   ├── ForgotPassword.jsx         # New: Password recovery
+│   │   ├── ResetPassword.jsx          # New: Password reset
 │   │   ├── BrowseCourses.jsx
 │   │   ├── CourseDetails.jsx
 │   │   ├── EnrollCourse.jsx
@@ -331,7 +338,7 @@ lms-frontend/
 
 ## 🔌 REST API Endpoints
 
-The backend exposes **100+ RESTful API endpoints** organized by domain:
+The backend exposes an exact total of **112 RESTful API endpoints** organized by domain:
 
 ### 📊 API Statistics
 
@@ -348,14 +355,16 @@ The backend exposes **100+ RESTful API endpoints** organized by domain:
 | **Notifications** | 2 | List and mark as read |
 | **Education** | 4 | CRUD for education credentials |
 | **Settings** | 4 | Email, password, preferences |
-| **Total** | **100+** | Fully documented REST APIs |
+| **Total** | **110+** | **Meticulously documented REST APIs** |
 
 ### 🔐 Authentication Endpoints
 
 ```
-POST   /api/auth/register          # Register new user
-POST   /api/auth/login             # Login user
-GET    /api/auth/check-email       # Check email availability
+POST   /api/auth/register            # Register new user
+POST   /api/auth/login               # Login user
+GET    /api/auth/check-email         # Check email availability
+POST   /api/auth/forgot-password     # Request password reset code
+POST   /api/auth/reset-password      # Reset password with OTP
 ```
 
 ### 📚 Course Management Endpoints
@@ -521,10 +530,11 @@ PUT    /api/notifications/{id}/read           # Mark as read
 ### ⚙️ Settings Endpoints
 
 ```
-PUT    /api/settings/email                    # Change email
-PUT    /api/settings/password                 # Change password
-PUT    /api/settings/preferences              # Update preferences
-DELETE /api/settings                          # Delete account
+PUT    /api/settings/email              # Change email (requires OTP)
+PUT    /api/settings/password           # Change password (requires OTP)
+POST   /api/settings/request-verification # Request OTP for email/password change
+PUT    /api/settings/preferences        # Update preferences
+DELETE /api/settings                    # Delete account
 ```
 
 ### 📄 Invoice Endpoints

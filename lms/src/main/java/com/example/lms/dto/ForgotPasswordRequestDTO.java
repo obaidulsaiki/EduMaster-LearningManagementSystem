@@ -3,7 +3,6 @@ package com.example.lms.dto;
 import lombok.Data;
 
 @Data
-public class UpdateEmailDTO {
+public class ForgotPasswordRequestDTO {
     private String email;
-    private String code;
 }

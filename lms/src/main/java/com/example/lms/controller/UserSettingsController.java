@@ -3,6 +3,7 @@ package com.example.lms.controller;
 import com.example.lms.dto.UpdateEmailDTO;
 import com.example.lms.dto.UpdatePasswordDTO;
 import com.example.lms.dto.UserPreferenceDTO;
+import com.example.lms.dto.VerificationRequestDTO;
 import com.example.lms.service.UserSettingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -15,27 +16,31 @@ public class UserSettingsController {
 
     private final UserSettingsService settingsService;
 
+    @PostMapping("/request-verification")
+    public void requestVerification(
+            Authentication auth,
+            @RequestBody VerificationRequestDTO dto) {
+        settingsService.requestVerification(auth, dto);
+    }
+
     @PutMapping("/email")
     public void updateEmail(
             Authentication auth,
-            @RequestBody UpdateEmailDTO dto
-    ) {
+            @RequestBody UpdateEmailDTO dto) {
         settingsService.updateEmail(auth, dto);
     }
 
     @PutMapping("/password")
     public void updatePassword(
             Authentication auth,
-            @RequestBody UpdatePasswordDTO dto
-    ) {
+            @RequestBody UpdatePasswordDTO dto) {
         settingsService.updatePassword(auth, dto);
     }
 
     @PutMapping("/preferences")
     public void updatePreferences(
             Authentication auth,
-            @RequestBody UserPreferenceDTO dto
-    ) {
+            @RequestBody UserPreferenceDTO dto) {
         settingsService.updatePreferences(auth, dto);
     }
 

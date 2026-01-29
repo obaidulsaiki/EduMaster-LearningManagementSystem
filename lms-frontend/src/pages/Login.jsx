@@ -104,6 +104,10 @@ function Login() {
             required
           />
 
+          <div className="auth-extra">
+            <Link to="/forgot-password">Forgot password?</Link>
+          </div>
+
           <button type="submit" className="auth-btn">
             Login
           </button>

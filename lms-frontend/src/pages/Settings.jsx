@@ -163,13 +163,13 @@ const Settings = () => {
       {showEmailModal && (
         <ChangeEmailModal
           onClose={() => setShowEmailModal(false)}
-          onSave={async (email) => {
+          onSave={async (data) => {
             try {
-              await updateEmail(email);
+              await updateEmail(data);
               alert("Email updated. Please login again.");
               logout();
-            } catch {
-              alert("Failed to update email");
+            } catch (err) {
+              alert(err.response?.data?.message || "Failed to update email");
             }
           }}
         />
