@@ -43,11 +43,11 @@ body.dark {
 html,
 body {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
 
-  background: var(--bg-main);
+  background-color: var(--bg-main);
   color: var(--text-main);
 
   transition: background 0.3s ease, color 0.3s ease;
@@ -79,7 +79,7 @@ body {
 }
 
 /* ================= FOOTER SUPPORT ================= */
-.app-layout > *:not(.footer) {
+.app-layout>*:not(.footer) {
   flex: 1;
   width: 100%;
 }

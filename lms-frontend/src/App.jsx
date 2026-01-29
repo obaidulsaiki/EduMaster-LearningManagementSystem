@@ -35,6 +35,7 @@ import AdminTeacherView from "./pages/admin/AdminTeacherView.jsx";
 import AdminTeacherEdit from "./pages/admin/AdminTeacherEdit.jsx";
 import AdminPayments from "./pages/admin/AdminPayments.jsx";
 import Mentors from "./pages/Mentors";
+import Path from "./pages/Path";
 import "./App.css";
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<BrowseCourses />} />
+          <Route path="/paths" element={<Path />} />
           <Route path="/mentors" element={<Mentors />} />
         </Route>
 

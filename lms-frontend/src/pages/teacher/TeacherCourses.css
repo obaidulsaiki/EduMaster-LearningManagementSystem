@@ -29,11 +29,9 @@
 /* ================= PRIMARY BUTTON ================= */
 
 .primary-btn {
-  background: linear-gradient(
-    135deg,
-    var(--primary),
-    #6366f1
-  );
+  background: linear-gradient(135deg,
+      var(--primary),
+      #2563eb);
   color: var(--primary-text);
   border: none;
 

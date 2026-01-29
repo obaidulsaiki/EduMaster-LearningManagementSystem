@@ -16,7 +16,7 @@
 
 /* 🌙 DARK MODE */
 body.dark .profile-page {
-  background: radial-gradient(circle at top, #1e293b, #020617);
+  background: radial-gradient(circle at top, #0f172a, #020617);
   color: #f8fafc;
 }
 
@@ -232,7 +232,7 @@ body.dark .course-card {
 
 .download-btn {
   margin-top: 10px;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -247,5 +247,5 @@ body.dark .course-card {
 
 .download-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
 }

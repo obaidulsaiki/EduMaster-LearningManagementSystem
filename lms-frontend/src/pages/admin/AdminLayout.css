@@ -60,9 +60,9 @@
 
 /* Active */
 .admin-nav-item.active {
-  background: linear-gradient(135deg, var(--primary), #6366f1);
+  background: linear-gradient(135deg, var(--primary), #2563eb);
   color: var(--primary-text);
-  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
 }
 
 /* ================= DIVIDER ================= */
@@ -100,6 +100,7 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
 }
+
 /* ================= ADMIN CONTENT ================= */
 
 .admin-content {
@@ -112,7 +113,7 @@
 }
 
 /* Keep content readable on large screens */
-.admin-content > * {
+.admin-content>* {
   max-width: 1200px;
 }
 
