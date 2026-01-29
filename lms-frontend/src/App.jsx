@@ -36,6 +36,7 @@ import AdminTeacherEdit from "./pages/admin/AdminTeacherEdit.jsx";
 import AdminPayments from "./pages/admin/AdminPayments.jsx";
 import Mentors from "./pages/Mentors";
 import Path from "./pages/Path";
+import Wishlist from "./pages/student/Wishlist";
 import "./App.css";
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/browse" element={<BrowseCourses />} />
           <Route path="/paths" element={<Path />} />
           <Route path="/mentors" element={<Mentors />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Route>
 
         {/* ================= AUTH ROUTES ================= */}

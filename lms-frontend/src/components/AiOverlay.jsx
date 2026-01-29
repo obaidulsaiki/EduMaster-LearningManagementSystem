@@ -8,7 +8,7 @@ function AiOverlay({ onClose }) {
   const [messages, setMessages] = useState([
     {
       role: "bot",
-      text: "👋 Hi! I’m your Trained LMS Expert. I can suggest courses and help you navigate the platform.",
+      text: "👋 Hi! I’m your EduMaster AI Career Assistant. I can suggest courses, navigate you to industry roadmaps, and build a personalized learning path based on your goals!",
     },
   ]);
 

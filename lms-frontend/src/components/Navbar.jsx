@@ -9,6 +9,7 @@ import {
   User,
   Settings,
   LayoutDashboard,
+  Heart,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import "./Navbar.css";
@@ -130,6 +131,12 @@ const Navbar = () => {
                   <Link to={getProfileRoute()} className="dropdown-item">
                     <User size={16} /> Profile
                   </Link>
+
+                  {user.role === "STUDENT" && (
+                    <Link to="/wishlist" className="dropdown-item">
+                      <Heart size={16} /> My Wishlist
+                    </Link>
+                  )}
 
                   {/* TEACHER DASHBOARD */}
                   {user.role === "TEACHER" && (

@@ -69,6 +69,36 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+.wishlist-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--bg-muted);
+  color: var(--text-muted);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wishlist-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  transform: scale(1.05);
+}
+
+.wishlist-btn.active {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.wishlist-btn.active:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
 .completed-actions {
   display: flex;
   flex-direction: column;

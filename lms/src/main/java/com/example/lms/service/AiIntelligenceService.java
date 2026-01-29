@@ -8,6 +8,11 @@ import com.example.lms.entity.Student;
 import com.example.lms.repository.AiConversationRepository;
 import com.example.lms.repository.CourseRepository;
 import com.example.lms.repository.StudentRepository;
+import com.example.lms.repository.StudentProfileRepository;
+import com.example.lms.repository.EnrollmentRepository;
+import com.example.lms.config.RoadmapData;
+import com.example.lms.entity.StudentProfile;
+import com.example.lms.entity.Enrollment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.service.AiServices;
@@ -25,6 +30,8 @@ public class AiIntelligenceService {
 
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
+    private final StudentProfileRepository studentProfileRepository;
+    private final EnrollmentRepository enrollmentRepository;
     private final AiConversationRepository aiConversationRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -50,15 +57,32 @@ public class AiIntelligenceService {
 
         String navigation = """
                 Navigation Routes:
-                - Public: / (Home), /browse (Browse Courses), /mentors (Mentors/Teachers List), /login, /register
+                - Public: / (Home), /browse (Browse Courses), /paths (Industry Roadmaps), /mentors (Mentors List), /login, /register
                 - All Roles: /settings
-                - Student: /profile, /course/:id (Course Details), /course/:id/enroll, /course/:id/payment, /course/:id/lecture/:id (Course Player)
-                - Teacher: /teacher/dashboard, /teacher/profile, /teacher/courses, /teacher/courses/new, /teacher/courses/:id/lectures
-                - Admin: /admin (Dashboard), /admin/teachers, /admin/teachers/:id, /admin/students, /admin/courses, /admin/reports, /admin/profile, /admin/payments
+                - Student: /profile, /wishlist, /course/:id (Course Details), /course/:id/enroll, /course/:id/payment, /course/:id/lecture/:id (Course Player)
+                - Teacher: /teacher/dashboard, /teacher/profile, /teacher/courses
+                - Admin: /admin, /admin/teachers, /admin/courses
                 """;
 
-        String finalPrompt = String.format("CONTEXT:\n%s\n\n%s\n\nUSER MESSAGE: %s",
-                context, navigation, request.getMessage());
+        // 2. Gather Student Context (Bio + History)
+        Student student = studentRepository.findById(request.getUserId()).orElse(null);
+        String studentContext = "No student data available.";
+        if (student != null) {
+            String bio = studentProfileRepository.findByStudentId(student.getId())
+                    .map(StudentProfile::getBio).orElse("No bio provided.");
+            List<Enrollment> enrollments = enrollmentRepository.findByStudentId(student.getId());
+            String enrollmentList = enrollments.stream()
+                    .map(e -> "- " + e.getCourse().getTitle())
+                    .collect(Collectors.joining(", "));
+            studentContext = String.format("STUDENT PROFILE:\n- Name: %s\n- Bio: %s\n- Enrolled Courses: [%s]",
+                    student.getName(), bio, enrollmentList.isEmpty() ? "None yet" : enrollmentList);
+        }
+
+        // 3. Get Industry Roadmap Data
+        String roadmaps = RoadmapData.getRoadmapContext();
+
+        String finalPrompt = String.format("CONTEXT:\n%s\n\n%s\n\n%s\n\n%s\n\nUSER MESSAGE: %s",
+                context, navigation, studentContext, roadmaps, request.getMessage());
 
         // 2. Chat with Local Model
         String aiRaw;
@@ -80,9 +104,9 @@ public class AiIntelligenceService {
             ChatResponseDTO response = objectMapper.readValue(aiRaw, ChatResponseDTO.class);
 
             // Log
-            studentRepository.findById(request.getUserId()).ifPresent(student -> {
+            studentRepository.findById(request.getUserId()).ifPresent(s -> {
                 AiConversation conversation = new AiConversation();
-                conversation.setStudent(student);
+                conversation.setStudent(s);
                 conversation.setStartedAt(LocalDateTime.now());
                 conversation.setLastMessageSnippet(request.getMessage());
                 aiConversationRepository.save(conversation);

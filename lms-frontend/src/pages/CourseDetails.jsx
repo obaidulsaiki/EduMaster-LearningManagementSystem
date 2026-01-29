@@ -5,6 +5,8 @@ import { getEnrollmentStatus, enrollCourse } from "../api/studentEnrollmentApi";
 import { quizApi } from "../api/quizApi";
 import { downloadCertificate } from "../api/certificateApi";
 import reviewApi from "../api/reviewApi";
+import { toggleWishlist, checkWishlistStatus } from "../api/wishlistApi";
+import { Heart } from "lucide-react";
 import "./CourseDetails.css";
 
 const CourseDetails = () => {
@@ -22,6 +24,8 @@ const CourseDetails = () => {
     const [userComment, setUserComment] = useState("");
     const [isSubmittingReview, setIsSubmittingReview] = useState(false);
     const [userHasReviewed, setUserHasReviewed] = useState(false);
+    const [inWishlist, setInWishlist] = useState(false);
+    const [wishlistLoading, setWishlistLoading] = useState(false);
 
     const load = async () => {
         try {
@@ -60,6 +64,14 @@ const CourseDetails = () => {
                 setReviews(reviewsRes.data);
             } catch (err) {
                 console.error("Failed to load reviews", err);
+            }
+
+            /* ===== WISHLIST STATUS ===== */
+            try {
+                const wishRes = await checkWishlistStatus(courseId);
+                setInWishlist(wishRes.data.inWishlist);
+            } catch {
+                setInWishlist(false);
             }
         } finally {
             setLoading(false);
@@ -139,6 +151,19 @@ const CourseDetails = () => {
         }
     };
 
+    const handleWishlistToggle = async () => {
+        setWishlistLoading(true);
+        try {
+            const res = await toggleWishlist(courseId);
+            setInWishlist(!inWishlist);
+            // alert(res.data.message);
+        } catch (err) {
+            console.error("Wishlist toggle failed", err);
+        } finally {
+            setWishlistLoading(false);
+        }
+    };
+
     return (
         <div className="course-details">
             <div className="course-header-stats">
@@ -171,6 +196,17 @@ const CourseDetails = () => {
                                 ? "✔ Course Completed"
                                 : "▶ Continue Course"}
                 </button>
+
+                {!enrolled && (
+                    <button 
+                        className={`wishlist-btn ${inWishlist ? "active" : ""}`} 
+                        onClick={handleWishlistToggle}
+                        disabled={wishlistLoading}
+                        title={inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+                    >
+                        <Heart size={24} fill={inWishlist ? "currentColor" : "none"} />
+                    </button>
+                )}
 
                 {enrolled && progress === 100 && (
                     <div className="completed-actions">
