@@ -21,6 +21,7 @@ public class QuizService {
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
     private final QuizResultRepository quizResultRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public QuizDTO saveQuiz(Long courseId, QuizDTO quizDTO) {
@@ -89,7 +90,16 @@ public class QuizService {
         result.setScore(correctCount);
         result.setPassed(correctCount >= 15); // Requirement: 15/20
 
-        return quizResultRepository.save(result);
+        QuizResult savedResult = quizResultRepository.save(result);
+
+        // 🔥 REAL-TIME NOTIFICATION for Student
+        notificationService.createNotification(
+                student.getId(),
+                "STUDENT",
+                String.format("📝 Quiz Graded! You scored %d in the quiz for %s. Status: %s",
+                        correctCount, quiz.getCourse().getTitle(), result.getPassed() ? "PASSED" : "FAILED"));
+
+        return savedResult;
     }
 
     public List<QuizResultResponseDTO> getResultsByCourseId(Long courseId) {

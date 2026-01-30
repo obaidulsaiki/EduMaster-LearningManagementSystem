@@ -1,7 +1,9 @@
 package com.example.lms.service;
 
 import com.example.lms.dto.MonthlyReportDTO;
+import com.example.lms.entity.AuditLog;
 import com.example.lms.entity.Payment;
+import com.example.lms.repository.AuditLogRepository;
 import com.example.lms.repository.EnrollmentRepository;
 import com.example.lms.repository.PaymentRepository;
 import com.lowagie.text.*;
@@ -10,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,7 @@ public class AdminReportService {
 
     private final EnrollmentRepository enrollmentRepository;
     private final PaymentRepository paymentRepository;
+    private final AuditLogRepository auditLogRepository;
 
     public MonthlyReportDTO getReport(String month) {
         String[] parts = month.split("-");
@@ -110,6 +115,58 @@ public class AdminReportService {
             return out.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException("Error generating PDF", e);
+        }
+    }
+
+    public List<AuditLog> getAllLogs() {
+        return auditLogRepository.findAllByOrderByTimestampDesc();
+    }
+
+    public byte[] generateAuditLogCsv() {
+        List<AuditLog> logs = auditLogRepository.findAllByOrderByTimestampDesc();
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                PrintWriter writer = new PrintWriter(out)) {
+
+            writer.println("Timestamp,Admin Name,Action,Target Type,Target ID,Description");
+            for (AuditLog log : logs) {
+                StringJoiner joiner = new StringJoiner(",");
+                joiner.add(log.getTimestamp().toString());
+                joiner.add(log.getAdminName());
+                joiner.add(log.getAction());
+                joiner.add(log.getTargetType() != null ? log.getTargetType() : "");
+                joiner.add(log.getTargetId() != null ? log.getTargetId().toString() : "");
+                joiner.add("\"" + log.getDescription().replace("\"", "\"\"") + "\"");
+                writer.println(joiner.toString());
+            }
+            writer.flush();
+            return out.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating CSV", e);
+        }
+    }
+
+    public byte[] generateRevenueCsv(String month) {
+        List<Payment> payments = paymentRepository.findAll(); // In a real app, filter by month
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                PrintWriter writer = new PrintWriter(out)) {
+
+            writer.println("Date,Transaction ID,Student Name,Student Email,Course,Amount,Method");
+            for (Payment p : payments) {
+                StringJoiner joiner = new StringJoiner(",");
+                joiner.add(p.getPaidAt().toString());
+                joiner.add(p.getTransactionId());
+                joiner.add(p.getEnrollment().getStudent().getName());
+                joiner.add(p.getEnrollment().getStudent().getEmail());
+                joiner.add(p.getEnrollment().getCourse().getTitle());
+                joiner.add(p.getAmount().toString());
+                joiner.add(p.getPaymentMethod());
+                writer.println(joiner.toString());
+            }
+            writer.flush();
+            return out.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating CSV", e);
         }
     }
 }

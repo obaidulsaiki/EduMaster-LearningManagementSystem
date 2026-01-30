@@ -21,10 +21,6 @@ const Settings = () => {
 
   /* ================= STATE ================= */
 
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") !== "light"
-  );
-
   const [emailNotifications, setEmailNotifications] = useState(true);
 
   const [showEmailModal, setShowEmailModal] = useState(false);
@@ -33,20 +29,13 @@ const Settings = () => {
   /* ================= THEME & PREFERENCES ================= */
 
   useEffect(() => {
-    const theme = darkMode ? "dark" : "light";
-
-    // ✅ UI only — safe for ALL roles
-    document.body.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
-
     // ✅ Backend sync — STUDENT ONLY
     if (user?.role === "STUDENT") {
       updatePreferences({
-        darkMode,
         emailNotifications,
       }).catch(() => {});
     }
-  }, [darkMode, emailNotifications, user?.role]);
+  }, [emailNotifications, user?.role]);
 
   /* ================= PROFILE REDIRECT ================= */
 
@@ -125,15 +114,6 @@ const Settings = () => {
         {/* ================= PREFERENCES ================= */}
         <section className="settings-card">
           <h3>Preferences</h3>
-
-          <div className="settings-row">
-            <span>Dark Mode</span>
-            <input
-              type="checkbox"
-              checked={darkMode}
-              onChange={() => setDarkMode((prev) => !prev)}
-            />
-          </div>
 
           {/* 🔥 STUDENT ONLY */}
           {user?.role === "STUDENT" && (

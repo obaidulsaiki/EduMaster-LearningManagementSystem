@@ -10,8 +10,15 @@ import {
   Settings,
   LayoutDashboard,
   Heart,
+  Bell,
+  Info,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNotifications } from "../hooks/useNotifications";
+import { applyTheme } from "../theme";
+import { updatePreferences } from "../api/settingsApi";
 import "./Navbar.css";
 
 const SCROLL_TRIGGER = 50;
@@ -20,11 +27,16 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
+  const { notifications, unreadCount, markAllAsRead } = useNotifications();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") !== "light"
+  );
 
   const isHome = location.pathname === "/";
 
@@ -42,6 +54,19 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome, location.pathname]);
+
+  /* ================= THEME TOGGLE ================= */
+  const toggleTheme = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    const theme = newDarkMode ? "dark" : "light";
+    applyTheme(theme);
+
+    // Sync with backend for Students
+    if (user?.role === "STUDENT") {
+      updatePreferences({ darkMode: newDarkMode }).catch(() => {});
+    }
+  };
 
   /* ================= LOGOUT ================= */
   const handleLogout = () => {
@@ -72,12 +97,12 @@ const Navbar = () => {
   return (
     <nav className={getNavbarClass()}>
       <div className="navbar-container">
-        {/* LOGO */}
-        <Link to="/" className="navbar-logo">
-          <div className="logo-icon">L</div>
-          <span className="logo-text">
-            Edu<span className="highlight">Master</span>
-          </span>
+        {/* BRANDING */}
+        <Link to="/" className="brand-container">
+          <div className="brand-icon-box">L</div>
+          <div className="brand-text">
+            Edu<span className="brand-highlight">Master</span>
+          </div>
         </Link>
 
         {/* SEARCH */}
@@ -111,14 +136,68 @@ const Navbar = () => {
 
         {/* ACTIONS */}
         <div className="navbar-actions">
+          {/* THEME TOGGLE */}
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+          >
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+
           {user ? (
             <>
-              {/* 🔕 Notifications disabled for now */}
+              {/* NOTIFICATIONS */}
+              <div className="notification-dropdown-container">
+                <button
+                  className={`notif-btn ${unreadCount > 0 ? "has-unread" : ""}`}
+                  onClick={() => {
+                    setIsNotifOpen((v) => !v);
+                    setIsProfileOpen(false);
+                  }}
+                >
+                  <Bell size={20} />
+                  {unreadCount > 0 && (
+                    <span className="notif-badge">{unreadCount}</span>
+                  )}
+                </button>
+
+                {isNotifOpen && (
+                  <div className="notif-dropdown active">
+                    <div className="notif-header">
+                      <h4>Notifications</h4>
+                      {unreadCount > 0 && (
+                        <button onClick={markAllAsRead}>Mark all read</button>
+                      )}
+                    </div>
+                    <div className="notif-list">
+                      {notifications.length === 0 ? (
+                        <div className="notif-empty">No new notifications</div>
+                      ) : (
+                        notifications.map((n, i) => (
+                          <div key={i} className={`notif-item ${!n.isRead ? "unread" : ""}`}>
+                            <div className="notif-icon-wrapper">
+                              <Info size={16} />
+                            </div>
+                            <div className="notif-content">
+                              <p>{n.message}</p>
+                              <span className="notif-time">Just now</span>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <div className="profile-dropdown-container">
                 <button
                   className="profile-btn"
-                  onClick={() => setIsProfileOpen((v) => !v)}
+                  onClick={() => {
+                    setIsProfileOpen((v) => !v);
+                    setIsNotifOpen(false);
+                  }}
                 >
                   <span className="username">{user.name}</span>
                   <ChevronDown size={16} />

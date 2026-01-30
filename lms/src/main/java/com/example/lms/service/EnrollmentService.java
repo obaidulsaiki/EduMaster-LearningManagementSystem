@@ -21,6 +21,7 @@ public class EnrollmentService {
         private final PaymentRepository paymentRepo;
         private final TeacherRepository teacherRepo;
         private final AdminRepository adminRepo;
+        private final NotificationService notificationService;
 
         public void createEnrollment(Authentication auth, Long courseId) {
 
@@ -110,6 +111,13 @@ public class EnrollmentService {
                         admin.setTotalEarnings(currentAdminTotal.add(adminShare));
                         adminRepo.save(admin);
                 }
+
+                // 🔥 REAL-TIME NOTIFICATION for Teacher
+                notificationService.createNotification(
+                                teacher.getId(),
+                                "TEACHER",
+                                String.format("🎉 New Student! %s has enrolled in your course: %s",
+                                                student.getName(), enrollment.getCourse().getTitle()));
         }
 
         public EnrollmentStatusDTO getStatus(Authentication auth, Long courseId) {

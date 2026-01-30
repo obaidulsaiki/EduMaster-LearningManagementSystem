@@ -9,6 +9,7 @@ import {
   Settings,
   LogOut,
   CreditCard,
+  ClipboardList,
 } from "lucide-react";
 import "./AdminLayout.css";
 
@@ -49,6 +50,11 @@ const AdminSidebar = () => {
           to="/admin/reports"
           icon={<FileText size={18} />}
           label="Reports"
+        />
+        <NavItem
+          to="/admin/audit-logs"
+          icon={<ClipboardList size={18} />}
+          label="Audit Logs"
         />
         <NavItem
           to="/admin/payments"

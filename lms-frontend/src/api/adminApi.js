@@ -52,3 +52,12 @@ export const downloadAdminReport = (month) =>
     params: { month },
     responseType: "blob"
   });
+
+export const getAdminAuditLogs = () =>
+  api.get("/admin/reports/audit-logs");
+
+export const downloadAuditLogsCsv = () =>
+  api.get("/admin/reports/audit-logs/csv", { responseType: "blob" });
+
+export const downloadRevenueCsv = (month) =>
+  api.get("/admin/reports/revenue/csv", { params: { month }, responseType: "blob" });

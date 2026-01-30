@@ -24,6 +24,7 @@ public class WithdrawalService {
     private final AdminRepository adminRepo;
     private final com.example.lms.repository.EnrollmentRepository enrollmentRepo;
     private final com.example.lms.repository.CourseRepository courseRepo;
+    private final NotificationService notificationService;
 
     @Transactional
     public void syncRevenue() {
@@ -139,7 +140,16 @@ public class WithdrawalService {
         request.setStatus("COMPLETED");
         request.setTransactionId(transactionId);
         request.setProcessedAt(LocalDateTime.now());
-        return withdrawalRepo.save(request);
+        WithdrawalRequest saved = withdrawalRepo.save(request);
+
+        // 🔥 REAL-TIME NOTIFICATION for Teacher/Admin
+        notificationService.createNotification(
+                request.getUserId(),
+                request.getUserRole(),
+                String.format("💰 Payout Processed! Your withdrawal of $%s has been completed. TransID: %s",
+                        request.getAmount(), transactionId));
+
+        return saved;
     }
 
     public List<WithdrawalRequest> getAllPendingRequests() {

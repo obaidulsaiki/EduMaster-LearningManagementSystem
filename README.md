@@ -59,7 +59,9 @@
 - ⭐ **Course Reviews** - Rate and review completed courses
 - 💳 **Secure Payments** - Integrated payment processing for enrollments
 - 📜 **Invoice Management** - Download payment receipts and invoices
-- 🤖 **AI Learning Assistant** - Get instant help with course-related questions
+- 🤖 **AI Career Assistant** - Personalized learning paths based on bio, history, and 21+ industry roadmaps
+- ❤️ **Course Wishlist** - Save favorite courses to study later
+- 🗺️ **CSE Job Paths** - Comprehensive "Beginning-to-End" roadmaps for 21+ tech roles
 
 #### For Teachers
 - ➕ **Course Creation** - Rich course builder with multimedia support
@@ -133,6 +135,7 @@
 | **Axios** | 1.13.2 | HTTP client |
 | **Vite** | 7.2.4 | Build tool & dev server |
 | **Lucide React** | 0.562.0 | Icon library |
+| **Framer Motion** | Latest | Premium animations |
 | **JWT Decode** | 4.0.0 | Token decoding |
 | **ESLint** | 9.39.1 | Code linting |
 
@@ -150,7 +153,8 @@ lms/
 │   │   ├── JwtAuthenticationFilter.java
 │   │   ├── JwtService.java
 │   │   ├── SecurityConfig.java    # Spring Security setup
-│   │   └── WebConfig.java         # CORS & Web config
+│   │   ├── WebConfig.java         # CORS & Web config
+│   │   └── RoadmapData.java       # AI Industry Roadmaps Context
 │   │
 │   ├── controller/                # 28 REST controllers
 │   │   ├── AdminController.java
@@ -180,7 +184,8 @@ lms/
 │   │   ├── TeacherController.java
 │   │   ├── TeacherCourseController.java
 │   │   ├── TeacherLectureController.java
-│   │   └── UserSettingsController.java
+│   │   ├── UserSettingsController.java
+│   │   └── WishlistController.java
 │   │
 │   ├── service/                   # 32 service classes
 │   │   ├── AdminCourseService.java
@@ -214,6 +219,7 @@ lms/
 │   │   ├── TeacherService.java
 │   │   ├── UserSettingsService.java
 │   │   ├── VerificationService.java   # New: OTP Management
+│   │   ├── WishlistService.java       # New: Student wishlist
 │   │   └── WithdrawalService.java
 │   │
 │   ├── entity/                    # 26 database entities
@@ -242,6 +248,7 @@ lms/
 │   │   ├── TeacherEducation.java
 │   │   ├── TeacherExperience.java
 │   │   ├── TeacherProfile.java
+│   │   ├── Wishlist.java              # Student course wishlist
 │   │   └── WithdrawalRequest.java
 │   │
 │   ├── dto/                       # 55 data transfer objects
@@ -279,19 +286,20 @@ lms-frontend/
 │   │   ├── studentEnrollmentApi.js
 │   │   ├── teacherApi.js
 │   │   ├── teacherCourseApi.js
-│   │   └── teacherLectureApi.js
+│   │   ├── teacherLectureApi.js
+│   │   └── wishlistApi.js             # Student wishlist APIs
 │   │
 │   ├── pages/                     # 65 page components
 │   │   ├── admin/                 # 21 admin pages
-│   │   ├── student/               # 2 student pages
+│   │   ├── student/               # 4 student pages (Wishlist, Quiz, etc)
 │   │   ├── teacher/               # 12 teacher pages
 │   │   ├── Home.jsx
 │   │   ├── Login.jsx
 │   │   ├── Register.jsx
 │   │   ├── ForgotPassword.jsx         # New: Password recovery
 │   │   ├── ResetPassword.jsx          # New: Password reset
-│   │   ├── BrowseCourses.jsx
 │   │   ├── CourseDetails.jsx
+│   │   ├── Path.jsx                   # New: Career Roadmaps
 │   │   ├── EnrollCourse.jsx
 │   │   ├── LecturePlayer.jsx
 │   │   ├── Mentors.jsx
@@ -349,13 +357,14 @@ The backend exposes an exact total of **112 RESTful API endpoints** organized by
 | **Student APIs** | 15 | Profile, enrollment, progress, quizzes |
 | **Teacher APIs** | 25 | Course management, lectures, revenue |
 | **Admin APIs** | 35 | Dashboard, user management, reports |
-| **AI Assistance** | 2 | Chat, recommendations |
+| **AI Assistance** | 3 | Chat, career paths, recommendations |
+| **Wishlist** | 3 | Add, remove, view favorites |
 | **Reviews & Ratings** | 2 | Submit and view reviews |
 | **Certificates** | 3 | Generate, view, download |
 | **Notifications** | 2 | List and mark as read |
 | **Education** | 4 | CRUD for education credentials |
 | **Settings** | 4 | Email, password, preferences |
-| **Total** | **110+** | **Meticulously documented REST APIs** |
+| **Total** | **115+** | **Meticulously documented REST APIs** |
 
 ### 🔐 Authentication Endpoints
 
@@ -773,7 +782,7 @@ GET    /api/public/teachers                   # Browse teachers/mentors
 
 2. **Pull AI model**
    ```bash
-   ollama pull llama2
+   ollama pull gemma3:4b
    ```
 
 3. **Start Ollama service**
@@ -828,6 +837,7 @@ Password: admin123
 - `teacher_education` - Teacher education records
 - `teacher_experience` - Teacher work experience
 - `ai_conversation` - AI chat history
+- `wishlist` - Student favorite courses
 
 ### Entity Relationships
 

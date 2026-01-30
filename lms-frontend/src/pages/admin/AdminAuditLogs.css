@@ -1,0 +1,136 @@
+.audit-logs-page {
+    padding: 2rem;
+    background: var(--bg-main);
+    min-height: 100vh;
+}
+
+.audit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.title-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-box {
+    width: 48px;
+    height: 48px;
+    background: var(--nav-primary);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.title-section h1 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.title-section p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-surface);
+    color: var(--text-main);
+    border: 1px solid var(--card-border);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.export-btn:hover {
+    background: var(--bg-muted);
+    transform: translateY(-1px);
+}
+
+.logs-controls {
+    margin-bottom: 1.5rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--card-border);
+    padding: 0 16px;
+    border-radius: 12px;
+    height: 48px;
+    max-width: 500px;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--text-main);
+}
+
+.logs-container {
+    background: var(--bg-surface);
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    overflow: hidden;
+}
+
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logs-table th {
+    background: rgba(0, 0, 0, 0.02);
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.logs-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.admin-badge {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--nav-primary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.action-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+.action-badge.ban_student,
+.action-badge.ban_teacher {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.action-badge.toggle_course_status {
+    background: #d1fae5;
+    color: #10b981;
+}

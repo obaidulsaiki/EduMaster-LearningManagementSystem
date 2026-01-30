@@ -25,7 +25,6 @@ import EnrollCourse from "./pages/EnrollCourse.jsx";
 import PaymentPage from "./pages/PaymentPage";
 import AdminProfile from "./pages/admin/AdminProfile.jsx";
 import AdminLayout from "./pages/admin/AdminLayout.jsx";
-import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import AdminTeachers from "./pages/admin/teachers.jsx";
 import AdminCourses from "./pages/admin/courses.jsx";
 import AdminStudents from "./pages/admin/students.jsx";
@@ -34,6 +33,8 @@ import AdminRevenuePage from "./pages/admin/AdminRevenuePage.jsx";
 import AdminTeacherView from "./pages/admin/AdminTeacherView.jsx";
 import AdminTeacherEdit from "./pages/admin/AdminTeacherEdit.jsx";
 import AdminPayments from "./pages/admin/AdminPayments.jsx";
+import AdminAuditLogs from "./pages/admin/AdminAuditLogs.jsx";
+import AdminAnalytics from "./pages/admin/AdminAnalytics.jsx";
 import Mentors from "./pages/Mentors";
 import Path from "./pages/Path";
 import Wishlist from "./pages/student/Wishlist";
@@ -112,8 +113,10 @@ function App() {
         {/* ================== ADMIN ROUTES ================= */}
         <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route index element={<AdminAnalytics />} />
+            <Route path="dashboard" element={<AdminAnalytics />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="audit-logs" element={<AdminAuditLogs />} />
             <Route path="teachers" element={<AdminTeachers />} />
             <Route path="teachers/:id" element={<AdminTeacherView />} />
             <Route path="teachers/:id/edit" element={<AdminTeacherEdit />} />
