@@ -62,6 +62,7 @@
 - 🤖 **AI Career Assistant** - Personalized learning paths based on bio, history, and 21+ industry roadmaps
 - ❤️ **Course Wishlist** - Save favorite courses to study later
 - 🗺️ **CSE Job Paths** - Comprehensive "Beginning-to-End" roadmaps for 21+ tech roles
+- 📤 **Assignment Uploads** - Submit course-related assignments for evaluation
 
 #### For Teachers
 - ➕ **Course Creation** - Rich course builder with multimedia support
@@ -82,6 +83,7 @@
 - 🔍 **Search & Filter** - Advanced search across all entities
 - 🚫 **Ban/Suspension** - Manage user access and platform rules
 - 📧 **System Communications** - Automated email notifications for account activities
+- 📜 **Audit Logs** - Track and monitor administrative actions for transparency
 
 ### 🔐 Authentication & Security
 - 🛡️ **JWT-based Authentication** - Secure role-based access control (RBAC)
@@ -109,35 +111,45 @@
 
 ## 🛠 Tech Stack
 
-### Backend (Spring Boot)
+The EduMaster LMS is built using a modern, high-performance stack designed for scalability, security, and a premium "wow" user experience.
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **`Spring Boot`** | 4.0.0 | Core framework |
-| **`Spring Data JPA`** | - | Database ORM |
-| **`Spring Security`** | - | Authentication & authorization |
-| **`PostgreSQL`** | Latest | **Primary Database (SQL)** |
-| **`JWT (jjwt)`** | 0.11.5 | **Security Type: Token-based (Stateless)** |
-| **`LangChain4j`** | 0.33.0 | AI intelligence integration |
-| **`Ollama`** | 0.33.0 | Local AI model runtime |
-| **`Spring Mail`** | - | Email notifications & OTP system |
-| **`OpenPDF`** | 1.3.30 | PDF certificate generation |
-| **`Jackson`** | Latest | JSON/XML processing |
-| **`Lombok`** | Latest | Code generation |
-| **`Maven`** | - | Build & dependency management |
+### 🍃 Backend (Spring Ecosystem)
 
-### Frontend (React)
+Built on **Spring Boot 4.0.0** and **Java 17 (LTS)**, the backend leverages the full power of the Spring Ecosystem, configured for a stateless, secure, and real-time learning environment.
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **React** | 19.2.0 | UI framework |
-| **React Router DOM** | 7.11.0 | Client-side routing |
-| **Axios** | 1.13.2 | HTTP client |
-| **Vite** | 7.2.4 | Build tool & dev server |
-| **Lucide React** | 0.562.0 | Icon library |
-| **Framer Motion** | Latest | Premium animations |
-| **JWT Decode** | 4.0.0 | Token decoding |
-| **ESLint** | 9.39.1 | Code linting |
+| Technology | Detail | Purpose |
+| :--- | :--- | :--- |
+| **Spring Boot** | Version 4.0.0 | Core application shell and auto-configuration engine. |
+| **Spring Security** | JWT-Based | Robust authentication with role-based access control (RBAC). |
+| **Spring Data JPA**| Hibernate-based | Efficient ORM and data persistence via PostgreSQL. |
+| **Spring WebMVC** | RESTful | High-performance API architecture for frontend communication. |
+| **Spring WebSocket**| STOMP Protocol | Real-time bi-directional messaging for instant notifications. |
+| **Spring Mail** | JavaMail | Automated delivery of OTPs, certificates, and invoices. |
+| **LangChain4j** | AI Integration | Intelligent RAG (Retrieval-Augmented Generation) and LLM memory (v0.33.0). |
+| **Ollama** | Local AI | Privacy-focused local execution of models like Llama 3.1. |
+| **PostgreSQL** | Relational DB | Enterprise-grade SQL database for reliable data storage. |
+| **OpenPDF** | PDF Engine | Generates high-quality PDF certificates and invoices (v1.3.30). |
+| **Jackson** | Data Format | High-speed JSON and XML serialization/deserialization. |
+| **Lombok** | Productivity | Annotation-based reduction of boilerplate code. |
+| **Spring DevTools**| Developer Tool | Enhanced productivity with hot swapping and restarts. |
+| **Maven** | Build Tool | Comprehensive project lifecycle and dependency management. |
+
+### ⚛️ Frontend (React Ecosystem)
+
+A cutting-edge Single Page Application (SPA) built with **React 19** and a luxurious, mobile-first design system. The frontend prioritizes visual excellence with glassmorphism effects and fluid motion.
+
+| Library | Version | Purpose |
+| :--- | :---: | :--- |
+| **React** | 19.2.0 | Core UI architecture utilizing the latest concurrent features. |
+| **Vite** | 7.2.4 | Lightning-fast build pipeline and ultra-responsive HMR. |
+| **React Router** | 7.11.0 | Sophisticated client-side routing and protected navigation. |
+| **Framer Motion** | 12.29.2 | Premium physics-based animations and professional transitions. |
+| **Recharts** | 3.7.0 | Interactive SVG data visualization for student and teacher analytics. |
+| **Lucide React** | 0.562.0 | Modern, lightweight, and customizable SVG icon system. |
+| **Axios** | 1.13.2 | Reliable API communication with request/response interceptors. |
+| **SockJS / Stomp** | 1.6 / 2.3 | Client-side WebSocket integration for live system updates. |
+| **JWT Decode** | 4.0.0 | Client-side authorization token parsing and verification. |
+| **ESLint** | 9.39.1 | Integrated linting for maintaining high code quality. |
 
 ---
 
@@ -148,111 +160,38 @@
 ```
 lms/
 ├── src/main/java/com/example/lms/
-│   ├── config/                    # 5 configuration files
+│   ├── config/                    # 8 configuration files
 │   │   ├── AdminSeeder.java       # Default admin setup
+│   │   ├── JacksonConfig.java
 │   │   ├── JwtAuthenticationFilter.java
 │   │   ├── JwtService.java
+│   │   ├── RoadmapData.java       # AI Industry Roadmaps Context
 │   │   ├── SecurityConfig.java    # Spring Security setup
 │   │   ├── WebConfig.java         # CORS & Web config
-│   │   └── RoadmapData.java       # AI Industry Roadmaps Context
+│   │   └── WebSocketConfig.java
 │   │
-│   ├── controller/                # 28 REST controllers
+│   ├── controller/                # 30 REST controllers
 │   │   ├── AdminController.java
-│   │   ├── AdminCourseController.java
-│   │   ├── AdminDashboardController.java
-│   │   ├── AdminPaymentController.java
-│   │   ├── AdminProfileController.java
-│   │   ├── AdminReportController.java
-│   │   ├── AdminStudentController.java
-│   │   ├── AdminTeacherController.java
-│   │   ├── AiController.java
-│   │   ├── AuthController.java
-│   │   ├── CertificateController.java
-│   │   ├── CourseController.java
-│   │   ├── CourseProgressController.java
-│   │   ├── EducationController.java
-│   │   ├── InvoiceController.java
-│   │   ├── LectureController.java
-│   │   ├── NotificationController.java
-│   │   ├── PublicTeacherController.java
-│   │   ├── QuizController.java
-│   │   ├── RevenueController.java
-│   │   ├── ReviewController.java
-│   │   ├── StudentController.java
-│   │   ├── StudentEnrollmentController.java
-│   │   ├── StudentProfileController.java
-│   │   ├── TeacherController.java
-│   │   ├── TeacherCourseController.java
-│   │   ├── TeacherLectureController.java
-│   │   ├── UserSettingsController.java
+│   │   ├── ...
+│   │   ├── AssignmentController.java # New: Assignment management
 │   │   └── WishlistController.java
 │   │
-│   ├── service/                   # 32 service classes
+│   ├── service/                   # 34 service classes
 │   │   ├── AdminCourseService.java
-│   │   ├── AdminDashboardService.java
-│   │   ├── AdminProfileService.java
-│   │   ├── AdminReportService.java
-│   │   ├── AdminService.java
-│   │   ├── AdminStudentService.java
-│   │   ├── AdminTeacherService.java
-│   │   ├── AiIntelligenceService.java
-│   │   ├── AuthService.java
-│   │   ├── CertificateService.java
-│   │   ├── CourseProgressService.java
-│   │   ├── CourseService.java
-│   │   ├── EducationService.java
-│   │   ├── EmailService.java          # New: OTP Email handling
-│   │   ├── EnrollmentService.java
-│   │   ├── FileStorageService.java
-│   │   ├── InvoiceService.java
-│   │   ├── LectureService.java
-│   │   ├── LmsExpert.java
-│   │   ├── NotificationService.java
-│   │   ├── QuizService.java
-│   │   ├── ReviewService.java
-│   │   ├── StudentProfileService.java
-│   │   ├── StudentService.java
-│   │   ├── TeacherCourseService.java
-│   │   ├── TeacherDashboardService.java
-│   │   ├── TeacherLectureService.java
-│   │   ├── TeacherProfileService.java
-│   │   ├── TeacherService.java
-│   │   ├── UserSettingsService.java
-│   │   ├── VerificationService.java   # New: OTP Management
-│   │   ├── WishlistService.java       # New: Student wishlist
+│   │   ├── ...
+│   │   ├── AuditLogService.java      # New: Audit logging
 │   │   └── WithdrawalService.java
 │   │
-│   ├── entity/                    # 26 database entities
+│   ├── entity/                    # 32 database entities
 │   │   ├── Admin.java
-│   │   ├── AdminProfile.java
-│   │   ├── AiConversation.java
-│   │   ├── BaseUser.java
-│   │   ├── Certificate.java
-│   │   ├── CompletedLecture.java
-│   │   ├── Course.java
-│   │   ├── CourseProgress.java
-│   │   ├── Education.java
-│   │   ├── EducationType.java
-│   │   ├── Enrollment.java
-│   │   ├── EnrollmentStatus.java
-│   │   ├── Lecture.java
-│   │   ├── Notification.java
-│   │   ├── Payment.java
-│   │   ├── Question.java
-│   │   ├── Quiz.java
-│   │   ├── QuizResult.java
-│   │   ├── Review.java
-│   │   ├── Student.java
-│   │   ├── StudentProfile.java
-│   │   ├── Teacher.java
-│   │   ├── TeacherEducation.java
-│   │   ├── TeacherExperience.java
-│   │   ├── TeacherProfile.java
-│   │   ├── Wishlist.java              # Student course wishlist
+│   │   ├── ...
+│   │   ├── AssignmentSubmission.java # New: Student submissions
+│   │   ├── AuditLog.java             # New: Admin activity log
 │   │   └── WithdrawalRequest.java
 │   │
-│   ├── dto/                       # 55 data transfer objects
-│   ├── repository/                # 23 JPA repositories
+│   ├── dto/                       # 61 data transfer objects
+│   ├── repository/                # 27 JPA repositories
+│   └── LmsApplication.java
 │   └── LmsApplication.java
 │
 ├── src/main/resources/
@@ -266,66 +205,27 @@ lms/
 ```
 lms-frontend/
 ├── src/
-│   ├── api/                       # 20 API service files
+│   ├── api/                       # 22 API service files
 │   │   ├── adminApi.js
-│   │   ├── adminProfileApi.js
-│   │   ├── aiApi.js
-│   │   ├── api.js                 # Base Axios config
-│   │   ├── certificateApi.js
-│   │   ├── courseApi.js
-│   │   ├── courseProgressApi.js
-│   │   ├── educationApi.js
-│   │   ├── lectureApi.js
-│   │   ├── mentorsApi.js
-│   │   ├── profileApi.js
-│   │   ├── quizApi.js
-│   │   ├── revenueApi.js
-│   │   ├── reviewApi.js
-│   │   ├── settingsApi.js
-│   │   ├── studentApi.js
-│   │   ├── studentEnrollmentApi.js
-│   │   ├── teacherApi.js
-│   │   ├── teacherCourseApi.js
-│   │   ├── teacherLectureApi.js
-│   │   └── wishlistApi.js             # Student wishlist APIs
+│   │   ├── authApi.js             # New: Auth APIs
+│   │   ├── ...
+│   │   └── wishlistApi.js
 │   │
-│   ├── pages/                     # 65 page components
-│   │   ├── admin/                 # 21 admin pages
-│   │   ├── student/               # 4 student pages (Wishlist, Quiz, etc)
-│   │   ├── teacher/               # 12 teacher pages
-│   │   ├── Home.jsx
-│   │   ├── Login.jsx
-│   │   ├── Register.jsx
-│   │   ├── ForgotPassword.jsx         # New: Password recovery
-│   │   ├── ResetPassword.jsx          # New: Password reset
-│   │   ├── CourseDetails.jsx
-│   │   ├── Path.jsx                   # New: Career Roadmaps
-│   │   ├── EnrollCourse.jsx
-│   │   ├── LecturePlayer.jsx
-│   │   ├── Mentors.jsx
-│   │   ├── PaymentPage.jsx
-│   │   ├── Profile.jsx
-│   │   ├── Settings.jsx
-│   │   ├── TeacherDashboard.jsx
+│   ├── pages/                     # 40 page components
+│   │   ├── admin/                 # Admin specific pages
+│   │   ├── student/               # Student specific pages
+│   │   ├── teacher/               # Teacher specific pages
+│   │   ├── ...
 │   │   └── TeacherProfile.jsx
 │   │
-│   ├── components/                # 35 reusable components
+│   ├── components/                # 20 reusable components
 │   │   ├── Admin/
 │   │   ├── profile/
 │   │   ├── settings/
 │   │   ├── teacher/
-│   │   ├── Navbar.jsx
-│   │   ├── Footer.jsx
-│   │   ├── Layout.jsx
-│   │   ├── CourseCard.jsx
-│   │   ├── Filters.jsx
-│   │   ├── Pagination.jsx
-│   │   └── AiOverlay.jsx
+│   │   └── ...
 │   │
 │   ├── auth/                      # 2 authentication files
-│   │   ├── auth.js
-│   │   └── ProtectedRoute.jsx
-│   │
 │   ├── context/                   # 1 React context
 │   ├── services/                  # 3 business logic services
 │   ├── utils/                     # 1 utility file
@@ -346,25 +246,24 @@ lms-frontend/
 
 ## 🔌 REST API Endpoints
 
-The backend exposes an exact total of **112 RESTful API endpoints** organized by domain:
+The backend exposes an exact total of **104 RESTful API endpoints** organized by domain:
 
 ### 📊 API Statistics
 
 | Category | Endpoints | Description |
 |----------|-----------|-------------|
-| **Authentication** | 3 | Login, register, email verification |
+| **Authentication** | 5 | Login, register, email verification, password recovery |
 | **Courses (Public)** | 3 | Browse, filter, view course details |
-| **Student APIs** | 15 | Profile, enrollment, progress, quizzes |
-| **Teacher APIs** | 25 | Course management, lectures, revenue |
-| **Admin APIs** | 35 | Dashboard, user management, reports |
-| **AI Assistance** | 3 | Chat, career paths, recommendations |
+| **Student APIs** | 17 | Profile, enrollment, progress, certificates, invoices, assignments |
+| **Teacher APIs** | 28 | Course management, lectures, revenue, quiz builder |
+| **Admin APIs** | 30 | Dashboard, user management, reports, payments, audit logs |
+| **AI Assistance** | 1 | Chat, career paths, recommendations |
 | **Wishlist** | 3 | Add, remove, view favorites |
 | **Reviews & Ratings** | 2 | Submit and view reviews |
-| **Certificates** | 3 | Generate, view, download |
-| **Notifications** | 2 | List and mark as read |
+| **Quizzes** | 6 | Student & Teacher quiz interactions |
 | **Education** | 4 | CRUD for education credentials |
-| **Settings** | 4 | Email, password, preferences |
-| **Total** | **115+** | **Meticulously documented REST APIs** |
+| **Settings** | 5 | Email, password, preferences, account deletion |
+| **Total** | **104** | **Meticulously documented REST APIs** |
 
 ### 🔐 Authentication Endpoints
 
