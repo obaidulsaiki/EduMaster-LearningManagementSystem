@@ -61,27 +61,12 @@ const AdminAnalytics = () => {
     }
   };
 
-  // Mock trend data for visualization (in reality these would come from backend)
-  const trendData = [
-    { name: 'Mon', students: 4, revenue: 120 },
-    { name: 'Tue', students: 7, revenue: 210 },
-    { name: 'Wed', students: 5, revenue: 150 },
-    { name: 'Thu', students: 8, revenue: 240 },
-    { name: 'Fri', students: 12, revenue: 360 },
-    { name: 'Sat', students: 15, revenue: 450 },
-    { name: 'Sun', students: 10, revenue: 300 },
-  ];
-
-  const categoryData = [
-    { name: 'Development', value: 45 },
-    { name: 'Design', value: 25 },
-    { name: 'Marketing', value: 15 },
-    { name: 'Business', value: 15 },
-  ];
-
-  const COLORS = ['#38bdf8', '#818cf8', '#fbbf24', '#f472b6'];
+  const COLORS = ['#38bdf8', '#818cf8', '#fbbf24', '#f472b6', '#2dd4bf', '#a855f7'];
 
   if (loading && !data) return <div className="analytics-loading">Loading Analytics...</div>;
+
+  const trendData = data?.trendData || [];
+  const categoryData = data?.categoryData || [];
 
   return (
     <div className="analytics-page">
@@ -116,7 +101,11 @@ const AdminAnalytics = () => {
           <div className="stat-info">
             <label>Total Revenue</label>
             <h3>${data?.revenue || 0}</h3>
-            <span className="trend positive">+12.5% vs last month</span>
+            {data?.revenueTrend !== undefined && (
+              <span className={`trend ${data.revenueTrend >= 0 ? 'positive' : 'negative'}`}>
+                {data.revenueTrend >= 0 ? '+' : ''}{data.revenueTrend.toFixed(1)}% vs last month
+              </span>
+            )}
           </div>
         </div>
         <div className="stat-card">
@@ -124,7 +113,11 @@ const AdminAnalytics = () => {
           <div className="stat-info">
             <label>New Students</label>
             <h3>{data?.newStudents || 0}</h3>
-            <span className="trend positive">+8.2% vs last month</span>
+            {data?.studentsTrend !== undefined && (
+              <span className={`trend ${data.studentsTrend >= 0 ? 'positive' : 'negative'}`}>
+                {data.studentsTrend >= 0 ? '+' : ''}{data.studentsTrend.toFixed(1)}% vs last month
+              </span>
+            )}
           </div>
         </div>
         <div className="stat-card">
@@ -132,7 +125,11 @@ const AdminAnalytics = () => {
           <div className="stat-info">
             <label>Admin Earnings</label>
             <h3>${data?.adminCommission || 0}</h3>
-            <span className="trend neutral">On track</span>
+            {data?.commissionTrend !== undefined && (
+              <span className={`trend ${data.commissionTrend >= 0 ? 'positive' : 'negative'}`}>
+                {data.commissionTrend >= 0 ? '+' : ''}{data.commissionTrend.toFixed(1)}% vs last month
+              </span>
+            )}
           </div>
         </div>
         <div className="stat-card">
@@ -140,7 +137,11 @@ const AdminAnalytics = () => {
           <div className="stat-info">
             <label>Completed Courses</label>
             <h3>{data?.completedCourses || 0}</h3>
-            <span className="trend negative">-2.1% vs last month</span>
+            {data?.statusTrend !== undefined && (
+              <span className={`trend ${data.statusTrend >= 0 ? 'positive' : 'negative'}`}>
+                {data.statusTrend >= 0 ? '+' : ''}{data.statusTrend.toFixed(1)}% vs last month
+              </span>
+            )}
           </div>
         </div>
       </div>

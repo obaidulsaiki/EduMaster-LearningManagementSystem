@@ -25,6 +25,9 @@ public class QuizResult {
 
     private Boolean passed;
 
+    @Enumerated(EnumType.STRING)
+    private QuizStatus status = QuizStatus.COMPLETED;
+
     private LocalDateTime completedAt;
 
     @PrePersist

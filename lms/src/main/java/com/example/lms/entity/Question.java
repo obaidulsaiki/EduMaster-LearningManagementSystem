@@ -20,11 +20,17 @@ public class Question {
     @Column(nullable = false, length = 1000)
     private String questionText;
 
+    @Enumerated(EnumType.STRING)
+    private QuestionType type = QuestionType.MULTIPLE_CHOICE;
+
+    @Column(columnDefinition = "TEXT")
+    private String extraData; // JSON string for specialized configs: matching pairs, blanks, etc.
+
     @ElementCollection
     @CollectionTable(name = "question_options", joinColumns = @JoinColumn(name = "question_id"))
     @Column(name = "option_text")
     private List<String> options;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer correctOptionIndex;
 }

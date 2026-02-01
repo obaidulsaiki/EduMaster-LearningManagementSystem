@@ -22,6 +22,7 @@ public class QuizService {
     private final StudentRepository studentRepository;
     private final QuizResultRepository quizResultRepository;
     private final NotificationService notificationService;
+    private final com.fasterxml.jackson.databind.ObjectMapper objectMapper;
 
     @Transactional
     public QuizDTO saveQuiz(Long courseId, QuizDTO quizDTO) {
@@ -45,6 +46,9 @@ public class QuizService {
         for (QuestionDTO qDto : quizDTO.getQuestions()) {
             Question question = new Question();
             question.setQuestionText(qDto.getQuestionText());
+            question.setType(
+                    qDto.getType() != null ? QuestionType.valueOf(qDto.getType()) : QuestionType.MULTIPLE_CHOICE);
+            question.setExtraData(qDto.getExtraData());
             question.setOptions(qDto.getOptions());
             question.setCorrectOptionIndex(qDto.getCorrectOptionIndex());
             question.setQuiz(quiz);
@@ -71,13 +75,37 @@ public class QuizService {
                 .orElseThrow(() -> new RuntimeException("Quiz not found"));
 
         int correctCount = 0;
-        Map<Long, Integer> questionToCorrectIndex = quiz.getQuestions().stream()
-                .collect(Collectors.toMap(Question::getId, Question::getCorrectOptionIndex));
+        boolean hasFileSubmission = false;
+
+        Map<Long, Question> questionMap = quiz.getQuestions().stream()
+                .collect(Collectors.toMap(Question::getId, q -> q));
 
         for (QuizSubmissionDTO.AnswerDTO answer : submission.getAnswers()) {
-            Integer correctIndex = questionToCorrectIndex.get(answer.getQuestionId());
-            if (correctIndex != null && correctIndex.equals(answer.getSelectedOptionIndex())) {
-                correctCount++;
+            Question q = questionMap.get(answer.getQuestionId());
+            if (q == null)
+                continue;
+
+            switch (q.getType()) {
+                case MULTIPLE_CHOICE:
+                    if (q.getCorrectOptionIndex() != null
+                            && q.getCorrectOptionIndex().equals(answer.getSelectedOptionIndex())) {
+                        correctCount++;
+                    }
+                    break;
+                case MATCHING:
+                    if (checkMatchingAnswer(q, answer.getMatchingResponse())) {
+                        correctCount++;
+                    }
+                    break;
+                case FILL_IN_THE_BLANKS:
+                    if (checkBlanksAnswer(q, answer.getTextResponse())) {
+                        correctCount++;
+                    }
+                    break;
+                case FILE_SUBMISSION:
+                    hasFileSubmission = true;
+                    // File submission ID is logged; actual file handling happens in separate upload
+                    break;
             }
         }
 
@@ -88,18 +116,56 @@ public class QuizService {
         result.setStudent(student);
         result.setQuiz(quiz);
         result.setScore(correctCount);
-        result.setPassed(correctCount >= 15); // Requirement: 15/20
+
+        // Passing threshold: 75%
+        double percentage = (double) correctCount / quiz.getQuestions().size();
+        result.setPassed(percentage >= 0.75);
+        result.setStatus(hasFileSubmission ? QuizStatus.PENDING_REVIEW : QuizStatus.COMPLETED);
 
         QuizResult savedResult = quizResultRepository.save(result);
 
-        // 🔥 REAL-TIME NOTIFICATION for Student
+        String statusMsg = result.getStatus() == QuizStatus.PENDING_REVIEW ? "PENDING REVIEW"
+                : (result.getPassed() ? "PASSED" : "FAILED");
         notificationService.createNotification(
                 student.getId(),
                 "STUDENT",
-                String.format("📝 Quiz Graded! You scored %d in the quiz for %s. Status: %s",
-                        correctCount, quiz.getCourse().getTitle(), result.getPassed() ? "PASSED" : "FAILED"));
+                String.format("📝 Quiz Submitted! You scored %d in %s. Status: %s",
+                        correctCount, quiz.getCourse().getTitle(), statusMsg));
 
         return savedResult;
+    }
+
+    private boolean checkMatchingAnswer(Question q, Map<String, String> response) {
+        if (response == null || q.getExtraData() == null)
+            return false;
+        try {
+            Map<String, Object> data = objectMapper.readValue(q.getExtraData(), Map.class);
+            Map<String, String> correctPairs = (Map<String, String>) data.get("pairs");
+            return correctPairs != null && correctPairs.equals(response);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean checkBlanksAnswer(Question q, String response) {
+        if (response == null || q.getExtraData() == null)
+            return false;
+        try {
+            Map<String, Object> data = objectMapper.readValue(q.getExtraData(), Map.class);
+            List<String> correctAnswers = (List<String>) data.get("answers");
+            if (correctAnswers == null)
+                return false;
+            String[] studentAnswers = response.split(",");
+            if (studentAnswers.length != correctAnswers.size())
+                return false;
+            for (int i = 0; i < correctAnswers.size(); i++) {
+                if (!correctAnswers.get(i).trim().equalsIgnoreCase(studentAnswers[i].trim()))
+                    return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public List<QuizResultResponseDTO> getResultsByCourseId(Long courseId) {
@@ -128,6 +194,8 @@ public class QuizService {
             QuestionDTO qDto = new QuestionDTO();
             qDto.setId(q.getId());
             qDto.setQuestionText(q.getQuestionText());
+            qDto.setType(q.getType().name());
+            qDto.setExtraData(q.getExtraData());
             qDto.setOptions(q.getOptions());
             if (includeCorrectIndex) {
                 qDto.setCorrectOptionIndex(q.getCorrectOptionIndex());

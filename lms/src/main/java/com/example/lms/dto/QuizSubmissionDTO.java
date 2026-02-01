@@ -11,6 +11,9 @@ public class QuizSubmissionDTO {
     @Data
     public static class AnswerDTO {
         private Long questionId;
-        private Integer selectedOptionIndex;
+        private Integer selectedOptionIndex; // MCQ
+        private String textResponse; // Fill in the Blanks
+        private java.util.Map<String, String> matchingResponse; // Matching
+        private Long assignmentSubmissionId; // Assignment
     }
 }

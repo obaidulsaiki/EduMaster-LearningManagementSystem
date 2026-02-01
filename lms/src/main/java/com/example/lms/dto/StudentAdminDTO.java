@@ -8,4 +8,5 @@ public class StudentAdminDTO {
     private String name;
     private String email;
     private boolean enabled;
+    private java.time.LocalDateTime createdAt;
 }

@@ -50,7 +50,12 @@ const AdminStudents = () => {
 
       {/* ===== TABLE ===== */}
       <AdminTable
-        columns={["id", "name", "email"]}
+        columns={[
+          "id",
+          { header: "name", key: "name", render: (val) => val || <i style={{color: '#94a3b8'}}>Unnamed</i> },
+          { header: "email", key: "email", render: (val) => val || <i style={{color: '#94a3b8'}}>No Email</i> },
+          { header: "Joined At", key: "createdAt", render: (val) => val ? new Date(val).toLocaleDateString() : 'N/A' }
+        ]}
         data={students}
         loading={loading}
         actions={(s) => (
@@ -61,13 +66,18 @@ const AdminStudents = () => {
                 color: "white",
                 border: "none",
                 borderRadius: "4px",
-                padding: "6px 12px"
+                padding: "6px 12px",
+                cursor: "pointer"
               }}
               onClick={async () => {
                 const action = s.enabled ? "Disable" : "Enable";
                 if (!confirm(`${action} this student?`)) return;
-                await toggleAdminStudentStatus(s.id);
-                load();
+                try {
+                  await toggleAdminStudentStatus(s.id);
+                  load();
+                } catch (err) {
+                  console.error("Failed to toggle status", err);
+                }
               }}
             >
               {s.enabled ? "Disable" : "Enable"}

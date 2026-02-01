@@ -4,6 +4,7 @@
     margin: 0 auto;
     background: var(--bg-surface);
     border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .manage-quiz-page .header {
@@ -15,13 +16,29 @@
     top: 0;
     background: var(--bg-surface);
     padding: 1rem 0;
-    z-index: 10;
+    z-index: 100;
     border-bottom: 2px solid var(--bg-muted);
 }
 
-.manage-quiz-page h2 {
-    color: var(--text-main);
-    font-size: 1.75rem;
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-add {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-add:hover {
+    background: #059669;
+    transform: translateY(-1px);
 }
 
 .btn-save {
@@ -32,11 +49,12 @@
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s;
 }
 
 .btn-save:hover {
     background: #4338ca;
+    transform: translateY(-1px);
 }
 
 .question-card {
@@ -44,23 +62,65 @@
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--bg-muted);
 }
 
-.question-card h3 {
-    margin-bottom: 1rem;
+.q-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.q-card-header h3 {
+    margin: 0;
     color: var(--text-main);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+}
+
+.q-card-controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.type-select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1.5px solid var(--bg-muted);
+    background: var(--bg-surface);
+    color: var(--text-main);
+    font-size: 0.9rem;
+}
+
+.btn-remove {
+    background: #ef4444;
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-remove:hover {
+    background: #dc2626;
 }
 
 .question-card textarea {
     width: 100%;
-    min-height: 80px;
+    min-height: 100px;
     padding: 0.75rem;
     border: 1.5px solid var(--bg-muted);
     border-radius: 8px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-family: inherit;
     resize: vertical;
     background: var(--bg-surface);
@@ -76,10 +136,11 @@
 .option-input {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     background: var(--bg-surface);
     padding: 0.75rem;
     border-radius: 8px;
+    border: 1px solid var(--bg-muted);
 }
 
 .option-input label {
@@ -104,10 +165,94 @@
     accent-color: #4f46e5;
 }
 
+/* Matching UI */
+.matching-config,
+.blanks-config,
+.file-config {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--bg-surface);
+    border-radius: 12px;
+    border: 2px dashed var(--bg-muted);
+}
+
+.config-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+.pair-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.pair-row input {
+    flex: 1;
+    padding: 0.6rem;
+    border: 1px solid var(--bg-muted);
+    border-radius: 6px;
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+.arrow {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+.btn-mini-add {
+    background: transparent;
+    border: 1.5px solid #10b981;
+    color: #10b981;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.75rem;
+    transition: all 0.2s;
+}
+
+.btn-mini-add:hover {
+    background: #10b981;
+    color: white;
+}
+
+.btn-mini-remove {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+
+.full-width-input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--bg-muted);
+    background: var(--bg-main);
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.config-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+}
+
 .footer-actions {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 2rem;
+    justify-content: space-between;
+    margin-top: 3rem;
     padding-top: 2rem;
     border-top: 2px solid var(--bg-muted);
 }
@@ -121,6 +266,7 @@
     color: white;
     z-index: 1000;
     font-weight: 500;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
     animation: slideIn 0.3s ease-out;
 }
 
@@ -144,8 +290,53 @@
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .options-grid {
         grid-template-columns: 1fr;
     }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* Dark Mode Fine-tuning */
+body.dark .question-card {
+    background: #0f172a;
+    /* Slightly lighter than pure black for depth */
+    border-color: #334155;
+}
+
+body.dark .option-input,
+body.dark .matching-config,
+body.dark .blanks-config,
+body.dark .file-config {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .type-select,
+body.dark textarea,
+body.dark .full-width-input,
+body.dark .pair-row input,
+body.dark .option-input input[type="text"],
+body.dark .config-row input {
+    background: #0f172a;
+    border-color: #334155;
+    color: var(--text-main);
+}
+
+body.dark ::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Ensure inputs prioritize theme variables */
+.manage-quiz-page input,
+.manage-quiz-page textarea,
+.manage-quiz-page select {
+    background: var(--bg-surface);
+    color: var(--text-main);
+    border: 1.5px solid var(--bg-muted);
 }

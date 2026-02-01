@@ -37,4 +37,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecif
                       LOWER(c.title) LIKE LOWER(CONCAT('%', :search, '%')))
             """)
     Page<Course> searchCourses(String search, Pageable pageable);
+
+    @Query("SELECT new com.example.lms.dto.CategoryDataDTO(c.category, COUNT(c)) FROM Course c WHERE c.published = true GROUP BY c.category")
+    List<com.example.lms.dto.CategoryDataDTO> countCoursesByCategory();
 }

@@ -7,6 +7,14 @@ export const quizApi = {
     manageQuiz: (courseId, quizData) => api.post(`/quizzes/manage/${courseId}`, quizData),
     getQuizForTeacher: (courseId) => api.get(`/quizzes/manage/${courseId}`),
     getResults: (courseId) => api.get(`/quizzes/results/${courseId}`),
+    uploadAssignment: (questionId, file) => {
+        const formData = new FormData();
+        formData.append("questionId", questionId);
+        formData.append("file", file);
+        return api.post("/assignments/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
+    }
 };
 
 export default quizApi;

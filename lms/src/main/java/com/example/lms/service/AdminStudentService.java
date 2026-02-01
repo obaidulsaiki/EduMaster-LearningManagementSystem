@@ -17,11 +17,11 @@ public class AdminStudentService {
     private final StudentRepository studentRepository;
 
     public Page<StudentAdminDTO> getStudents(int page, String search) {
-
+        String trimmedSearch = (search != null) ? search.trim() : null;
         Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
 
         return studentRepository
-                .searchStudents(search, pageable)
+                .searchStudents(trimmedSearch, pageable)
                 .map(this::toDto);
     }
 
@@ -48,6 +48,7 @@ public class AdminStudentService {
         dto.setName(s.getName());
         dto.setEmail(s.getEmail());
         dto.setEnabled(s.isEnabled());
+        dto.setCreatedAt(s.getCreatedAt());
         return dto;
     }
 }

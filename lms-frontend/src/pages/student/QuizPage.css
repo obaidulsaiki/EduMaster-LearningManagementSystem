@@ -124,6 +124,99 @@
     font-weight: 600;
 }
 
+/* Matching Student UI */
+.matching-student-ui {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-surface);
+    border-radius: 8px;
+    border: 1px solid var(--bg-muted);
+}
+
+.match-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.match-key {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.match-row select {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1.5px solid var(--bg-muted);
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* Blanks Student UI */
+.blanks-student-ui {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.blank-input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 2px solid var(--bg-muted);
+    background: var(--bg-surface);
+    color: var(--text-main);
+    font-family: inherit;
+}
+
+.blank-input-field:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* File Submission UI */
+.file-student-ui {
+    padding: 1.5rem;
+    background: var(--bg-surface);
+    border: 2px dashed var(--bg-muted);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.upload-box input {
+    width: 100%;
+    cursor: pointer;
+}
+
+.upload-success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.uploading-text {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.btn-mini-remove {
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: underline;
+}
+
 /* RESULT CARD */
 .quiz-result-container {
     padding: 5rem 2rem;
@@ -208,4 +301,28 @@
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+}
+
+/* Dark Mode Fine-tuning */
+body.dark .question-item {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+body.dark .option-item,
+body.dark .matching-student-ui,
+body.dark .file-student-ui,
+body.dark .quiz-footer {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+body.dark .option-item:hover {
+    background: #334155;
+}
+
+body.dark .match-row select,
+body.dark .blank-input-field {
+    background: #0f172a;
+    border-color: #334155;
 }
